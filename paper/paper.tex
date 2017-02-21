@@ -21,9 +21,9 @@
 
 % --- Author Metadata here ---
 %%% REMEMBER TO CHANGE THE SEMESTER AND YEAR AS NEEDED
-\conferenceinfo{UMM CSci Senior Seminar Conference, December 2015}{Morris, MN}
+\conferenceinfo{UMM CSci Senior Seminar Conference, May 2017}{Morris, MN}
 
-\title{Vertex Coloring}
+\title{Conflict-Free Vertex Coloring Of Planar Graphs}
 
 \numberofauthors{1}
 
@@ -41,8 +41,39 @@ Shawn S. Seymour\\
 Abstract goes here...
 \end{abstract}
 
+\section*{KEY POINTS}
+The goal of this research is to discover and explain properties and results of conflict-free coloring of planar graphs. The conflict-free coloring problem is a variation of the classical vertex coloring problem (VCP). The VCP aims to color a graph \(G = (V, E)\) such that no two adjacent vertices receive the same color. This is typically shown in the form of the \emph{k-colorability} problem: a graph is \emph{k-colorable} if it can be colored using $k$ or less colors. For example, the map of the 48 contiguous states can be colored with 4 colors and is thus \emph{4-colorable}. This is shown in the famous four-color theorem. It cannot be colored with 3 colors, and is thus \emph{not 3-colorable}.
+
+The minimum amount of colors needed to color a graph is called the \emph{chromatic number}. It is heavily studied in graph theory and it is NP-hard to determine the chromatic number of a graph. This property makes it an interesting problem to study as there are currently no known polynomial time algorithms to solve the VCP.
+
+A conflict-free coloring is a variation of the VCP. Each vertex must be assigned a color such that for every vertex $v$, there is at least one color appearing exactly once in the neighborhood of $v$, i.e. vertices adjacenct to $v$.
+
 \section{Introduction}
 \label{sec:introduction}
+Explain why graph coloring, specifically vertex coloring, is interesting and how it can be used to solve many real-world applications. Describe how it can be one of the most difficult problems to solve efficiently. Bring up the example of coloring the 48 contiguous states, an example of a planar graph. Introduce conflict-free coloring as a variant of the classical vertex coloring problem (VCP). 
+
+\section{Background}
+\label{sec:background}
+Give some of the needed background regarding graph theory, complexity theory (i.e. NP-complete, NP-hard, etc), and the classical vertex coloring problem.
+
+\subsection{Graphs}
+\label{sec:graphs}
+Define what a graph, \(G = (V, E)\), is. Define terms that will be used throughout the paper dealing with graphs such as nodes, edges, neighborhoods, etc.
+
+\subsection{Vertex Coloring Problem (VCP)}
+\label{sec:vcp}
+Explain the classical vertex coloring problem and why it is interesting. Give required background so conflict-free colorings will make sense later.
+
+\subsection{Complexity of the VCP}
+\label{sec:complexitytheory}
+
+\section{Conclusions}
+
+\section{Acknowledgments}
+Give thanks to my mom, etc.
+
+
+\cite{bondy1976graph}
 
 
 \bibliographystyle{abbrv}

@@ -1,4 +1,26 @@
-\documentclass{article}
+\documentclass [11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,
+    urlcolor=blue
+}
+
+\urlstyle{same}
 
 
+\title{Vertex Coloring\\\medskip Annotated Bibliography}
+\author{Shawn Seymour\\University of Minnesota Morris}
+\date{Febuary 7, 2017}
+
+\begin{document}
+\maketitle
+\section*{Summary}
+The vertex coloring problem (VCP) is one of the most researched problems in graph theory. A proper vertex coloring is an assignment of colors, or labels, to each vertex in a graph \(G = (V, E)\) such that no edge connects to vertices of the same color. The VCP aims to find the chromatic number, denoted \(\chi(G)\), the minimum number of colors needed to properly color a graph as defined above. There are many heuristics to solve this NP-hard problem as well as ways to estimate and put bounds on the chromatic number, which I will explore in this paper.
+
+\nocite{*}
+\bibliographystyle{IEEEannot}
+\bibliography{../references.bib}
 \end{document}

@@ -1,12 +1,3 @@
-% This is a sample document using the University of Minnesota, Morris, Computer Science
-% Senior Seminar modification of the ACM sig-alternate style. Much of this content is taken
-% directly from the ACM sample document illustrating the use of the sig-alternate class. Certain
-% parts that we never use have been removed to simplify the example, and a few additional
-% components have been added.
-
-% See https://github.com/UMM-CSci/Senior_seminar_templates for more info and to make
-% suggestions and corrections.
-
 \documentclass{sig-alternate}
 \usepackage{color}
 \usepackage[colorinlistoftodos]{todonotes}
@@ -19,8 +10,6 @@
 
 \begin{document}
 
-% --- Author Metadata here ---
-%%% REMEMBER TO CHANGE THE SEMESTER AND YEAR AS NEEDED
 \conferenceinfo{UMM CSci Senior Seminar Conference, May 2017}{Morris, MN}
 
 \title{Conflict-Free Vertex Coloring Of Planar Graphs}
@@ -41,61 +30,57 @@ Shawn S. Seymour\\
 Abstract goes here...
 \end{abstract}
 
-\section*{KEY POINTS}
-The goal of this research is to discover and explain properties and results of conflict-free (C-F) coloring of planar graphs. The conflict-free coloring problem is a variation of the classical vertex coloring problem (VCP). The VCP aims to color a graph \(G = (V, E)\) such that no two adjacent vertices receive the same color. This is typically shown in the form of the \emph{k-colorability} problem: a graph is \emph{k-colorable} if it can be colored using $k$ or less colors. For example, the map of the 48 contiguous states can be colored with 4 colors and is thus \emph{4-colorable}. This is shown in the famous four-color theorem. It cannot be colored with 3 colors, and is thus \emph{not 3-colorable}.
-
-The minimum amount of colors needed to color a graph is called the \emph{chromatic number}. It is heavily studied in graph theory and it is NP-hard to determine the chromatic number of a graph. This property makes it an interesting problem to study as there are currently no known polynomial time algorithms to solve the VCP.
-
-A conflict-free coloring is a variation of the VCP. Each vertex must be assigned a color such that for every vertex $v$, there is at least one color appearing exactly once in the neighborhood of $v$, i.e. vertices adjacent to $v$. My primary source by Abel et al. \cite{abel2017three} focuses on results of conflict-free colorings of general graphs and then moves into the specific case of planar graphs.
-
-There are many complexity results relating to conflict-free colorings. Conflict-free coloring is reduced from the \emph{k-colorability} to show that it is NP-hard. We know that \emph{k-colorability} is NP-hard through a reduction from 3-SAT. The reduction of \emph{3-SAT} to \emph{k-colorability} is given in \cite{sharma2012new}. This source then goes on to give results for C-F coloring of planar graphs. For example, \cite{abel2017three} give results on the NP-completeness of deciding whether planar graphs can be C-F colored with 1 or 2 colors. Conflict-free coloring of planar graphs can always be done with 3 colors, but minimizing the colors used is NP-hard, like the original VCP.
-
-For general graphs, there are complexity results given by \cite{gargano2015complexity}. They show that conflict-free coloring of closed neighborhoods (when a node does not belong to its neighborhood) is NP-complete. They give non-approximability results for the conflict-free coloring of open neighborhoods.
-
 \section{Introduction}
 \label{sec:introduction}
-Explain why graph coloring, specifically vertex coloring, is interesting and how it can be used to solve many real-world applications. Describe how it can be one of the most difficult problems to solve efficiently. Bring up the example of coloring the 48 contiguous states, an example of a planar graph. Introduce conflict-free coloring as a variant of the classical vertex coloring problem (VCP).
+
+Consider the map of the 48 contiguous states in the United States of America. Suppose we would like to color each state such that no two states that share a boundary have the same color. This problem can be modeled with a mathematical structure called a \emph{graph}. We can represent each state with a \emph{vertex} and represent a boundary between two states with an \emph{edge}. This map is an example of a planar graph, i.e. none of the edges cross when drawn on a plane.
+
+This is a famous example of the \emph{vertex coloring} problem and one of many graph coloring problems. The vertex coloring problem aims to find the minimum amount of colors needed to color a graph such that no two adjacent vertices are colored with the same color. While some problems are relatively easy to solve, the vertex coloring problem is one of the most computationally complex problems in computer science and mathematics. The vertex coloring problem has many real-world applications such as exam timetabling, register allocation, and the scheduling of taxis.
+
+The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color every vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{enough} vertices such that for every vertex, it is connected to at least one colored vertex.
 
 
 \section{Background}
 \label{sec:background}
-Give some of the needed background regarding graph theory, complexity theory (i.e. NP-complete, NP-hard, etc), and the classical vertex coloring problem. Background information will generally come from \cite{bondy1976graph}.
+To understand the problem, the algorithms to solve it, and its results, we must first understand some graph theory, some computational complexity theory, and the precise definitions of the vertex coloring problem and the conflict-free coloring problem.
 
-\subsection{Graphs}
-\label{sec:graphs}
-Define what a graph, \(G = (V, E)\), is. Define terms that will be used throughout the paper dealing with graphs such as nodes, edges, neighborhoods, what a planar graph is, etc.
+\subsection{Graph Theory}
+\label{sec:graphtheory}
 
-\subsection{Vertex Coloring Problem (VCP)}
-\label{sec:vcp}
-Explain the classical vertex coloring problem and why it is interesting. Give required background so conflict-free colorings will make sense later.
+A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V$ and a set of edges $E$. Each edge consists of a pair of vertices from $V$. For example, $(u,w) \in E$ is an edge connecting vertices $u$ and $w$ where $u,w \in V$. Vertices are adjacent if they are connected by an edge. A graph can be non-technically described as a set of points (vertices) with lines (edges) connecting them. A simple graph is an undirected graph where each edge connects two different vertices and no two edges connect the same pair of vertices. This means a vertex cannot have a loop, i.e. an edge from a vertex to itself. \cite{bondy1976graph}
+
+The neighborhood of a vertex, denoted $N_G(v)$, is a set of all vertices adjacent to $v$. A \emph{closed} neighborhood consists of all vertices adjacent to $v$ and $v$ itself. Unless stated otherwise, we will assume when talking about neighborhoods that they are closed neighborhoods. The degree of a vertex, denoted $d_G(v)$, is the number of vertices adjacent to $v$. The maximum degree of a graph $G$, denoted $\Delta(G)$, is the maximum degree of its vertices.
+
+
+\subsection{Graph Coloring}
+\label{sec:coloring}
+A vertex coloring is an assignment of colors to each vertex of a graph $G$ such that no adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors, i.e. $|S|$, needed to properly color $G$.
+
 
 \subsection{Complexity Theory}
 \label{sec:complexitytheory}
-Define common complexity theory terms such as P, NP, NP-complete, and NP-hard. Talk about the complexity of the classical VCP and define other knowledge needed to talk about complexity.
+
 
 \section{C-F Coloring of General Graphs}
-Discuss conflict-free coloring of general graphs, i.e. graphs that can be non-planar.
+
 \section{C-F Coloring of Planar Graphs}
-Discuss conflict-free coloring of planar graphs.
+
 
 \section{Complexity of Coloring C-F Graphs}
-Discuss the complexity of coloring C-F graphs.
+
 
 \subsection{General Graphs}
-\subsubsection{Open Neighborhoods}
-This is when the neighborhood of a node does not include the node itself.
 
-\subsubsection{Closed Neighborhoods}
-This is when the neighborhood of the node includes the node itself. Talk about result that conflict-free coloring of closed neighborhoods is NP-complete from \cite{gargano2015complexity}.
 
 \subsection{Planar Graphs}
-Look at the complexity results given in \cite{abel2017three} at coloring planar graphs.
 
-\section{Conclusions}
-Brief summary of the findings and results explained above.
+
+\section{Conclusion}
+\label{sec:conclusion}
 
 \section{Acknowledgments}
-Give thanks to my mom, Peter, Elena, etc.
+\cite{abel2017three}
+
 
 \bibliographystyle{abbrv}
 \bibliography{../references}

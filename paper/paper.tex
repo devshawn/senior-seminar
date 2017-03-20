@@ -1,6 +1,10 @@
 \documentclass{sig-alternate}
 \usepackage{color}
 \usepackage[colorinlistoftodos]{todonotes}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
 
 %%%%% Uncomment the following line and comment out the previous one
 %%%%% to remove all comments
@@ -27,7 +31,7 @@ Shawn S. Seymour\\
 
 \maketitle
 \begin{abstract}
-The conflict-free coloring problem is a variation of the vertex coloring problem, a classical NP-hard optimization problem. The conflict-free coloring problem aims to color the vertices of a graph in a way where every vertex is connected to at least one uniquely colored vertex.
+The conflict-free coloring problem is a variation of the vertex coloring problem, a classical NP-hard optimization problem. The conflict-free coloring problem aims to color the vertices of a graph in a way where every vertex is connected to at least one uniquely colored vertex. This paper presents heuristics to solve the conflict-free coloring problem on both general graphs and planar graphs. This paper also looks into bounds on the number of colors needed.
 \end{abstract}
 
 \section{Introduction}
@@ -67,7 +71,7 @@ The neighborhood of a vertex, denoted $N_G(v)$, is a set of all vertices adjacen
 
 \subsection{Graph Coloring}
 \label{sec:coloring}
-A vertex coloring is an assignment of colors to each vertex of a graph $G$ such that no adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors, i.e. $|S|$, needed to properly color $G$. The \emph{vertex coloring} problem, when given a simple graph $G$, is to find $\chi(G)$. \cite{bondy1976graph}
+A vertex coloring is an assignment of colors to each vertex of a graph $G$ such that no adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. A vertex coloring that satisfies this constraint is called a \emph{proper coloring}. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors, i.e. $|S|$, needed to properly color $G$. The \emph{vertex coloring} problem, when given a simple graph $G$, is to find $\chi(G)$. \cite{bondy1976graph}
 
 A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or fewer colors, i.e. $\chi(G) \leq k$. A graph having $\chi(G) = k$ is said to be a \emph{k-chromatic} graph. The \emph{k-colorability} problem asks if a graph can be colored using $k$ colors. This problem is a slightly easier problem than the vertex coloring problem as it is decision problem rather than an optimization problem. An example of a 3-colorable graph and a vertex coloring is shown in figure \ref{fig:vcp-example}.
 
@@ -79,7 +83,9 @@ A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or f
 
 A \emph{conflict-free coloring} of a graph assigns one of $k$ colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors. A \emph{conflict-free k-coloring} of a simple graph $G$ assigns one of $k$ different colors to a subset $S \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the closed neighborhood of $v$. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. \cite{abel2017three}
 
-An example of a conflict-free coloring is shown in figure \ref{fig:cfcp-example}. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}.
+An example of a conflict-free coloring is shown in figure \ref{fig:cfcp-example}. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}. We observe from figures \ref{fig:vcp-example} and \ref{fig:cfcp-example}, $\chi(H) = 3$ and $\chi_{CF}(H) = 2$.
+
+The domination number of $G$, denoted $\gamma(G)$, is the size of a minimum dominating set of G. A dominating set is a subset $D$ of $V$ such that every vertex not in $D$ is adjacent to at least one vertex in $D$. The \emph{conflict-free domination number} for some $k$, denoted $\gamma_{CF}^k(G)$, is the minimum number of vertices that have to be colored in a conflict-free k-coloring of $G$. An example of a dominating set is $\{3, 5\}$ of graph $H$ where $\gamma(H) = 2$.
 
 \subsection{Computational Complexity Theory}
 \label{sec:complexitytheory}
@@ -91,8 +97,43 @@ There are certain problems that can be proven to be as hard as every problem in 
 
 The vertex coloring problem (VCP) and the conflict-free coloring problem (CFCP) are not in the class NP as they are not decision problems. A common approach to proving problems as NP-hard or NP-complete is a reduction from a known NP problem. If we find a known hard problem $Y$, then we can prove that another problem $X$ is hard by reducing $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The \emph{k-colorability} problem is proven to be NP-complete with a reduction from 3-SAT, a well-known NP-complete problem \cite{sharma2012new}.
 
-
 \section{CF Coloring of General Graphs}
+For the rest of this paper, we will consider the NP-complete problem of conflict-free k-colorability. Given a graph $G$ and an integer $k$, determine if graph $G$ can be colored using $k$ or fewer colors. Although all graphs can be conflict-free colored, a given graph $G$ may not be able to be colored with $k$ colors.
+
+As shown with graph $H$ in section \ref{sec:background}, even though all proper vertex colorings are also conflict-free colorings, fewer colors can usually be used. This leads us to use heuristics that differ from the vertex coloring problem. Abel et al. \cite{abel2017three} present an efficient heuristic to color certain general graphs with $k$ colors in a conflict-free manner. They call this heuristic \emph{iterated elimination of distance-3-sets}.
+
+\subsection{Guaranteeing CF k-Colorability}
+It is wasteful to spend time coloring a graph that cannot be conflict-free colored with $k$ colors. This leads Abel et al. \cite{abel2017three} to provide sufficient criterion to guarantee the conflict-free k-colorability of a graph. To introduce this criterion, we need to define a few more terms.
+
+
+
+\subsection{Iterated Elimination of Distance-3-Sets}
+
+\begin{algorithm}
+\caption{Iterated elimination of distance-3-sets} \label{alg:elimination}
+\begin{algorithmic}[1]
+\State $i \gets 1$, $\chi \gets \emptyset$
+\State Remove all isolated paths from $G$
+\While{$G$ is not empty}
+	\State $D \gets \emptyset$
+	\ForAll{components of $G$}
+		\State Pick a vertex $v$ and add it to $D$
+		\While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
+			\State Pick $u$ at distance 3 from some vertex in $D$
+			\State $D \gets D \cup \{ w \}$
+		\EndWhile
+		\ForAll{$u \in D$}
+			\State Color $u$ with color $i$
+		\EndFor
+		\State $i \gets i + 1$
+		\State Remove $N[D]$ from $G$
+		\State Remove all isolated paths from G
+	\EndFor
+\EndWhile
+\State Color all removed isolated paths using color $i$
+\end{algorithmic}
+\end{algorithm}
+
 
 \section{CF Coloring of Planar Graphs}
 

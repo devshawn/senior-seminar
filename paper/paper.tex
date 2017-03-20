@@ -10,7 +10,7 @@
 
 \begin{document}
 
-\conferenceinfo{UMM CSci Senior Seminar Conference, May 2017}{Morris, MN}
+\conferenceinfo{UMM CSci Senior Seminar Conference, April 2017}{Morris, MN}
 
 \title{Conflict-Free Vertex Coloring Of Planar Graphs}
 
@@ -33,9 +33,9 @@ The conflict-free coloring problem is a variation of the vertex coloring problem
 \section{Introduction}
 \label{sec:introduction}
 
-Consider the map of the 48 contiguous states in the United States of America. Suppose we would like to color each state such that no two states that share a boundary have the same color. This problem can be modeled with a mathematical structure called a \emph{graph}. We can represent each state with a \emph{vertex} and represent a boundary between two states with an \emph{edge}. This map is an example of a planar graph, i.e. none of the edges cross when drawn on a plane.
+Consider the map of the 48 contiguous states in the United States of America. Suppose we would like to color each state such that no two states that share a boundary have the same color. This problem can be modeled with a graph. We can represent each state with a \emph{vertex} and represent a boundary between two states with an \emph{edge}. This map is an example of a planar graph, i.e. none of the edges cross when drawn on a plane.
 
-This is a famous example of the \emph{vertex coloring} problem and one of many graph coloring problems. The vertex coloring problem aims to find the minimum amount of colors needed to color a graph such that no two adjacent vertices are colored with the same color. While some problems are relatively easy to solve, the vertex coloring problem is one of the most computationally complex problems in computer science and mathematics. The vertex coloring problem has many real-world applications such as exam timetabling, register allocation, and the scheduling of taxis.
+This is a famous example of the \emph{vertex coloring} problem and one of many graph coloring problems. The vertex coloring problem aims to find the minimum number of colors needed to color a graph such that no two adjacent vertices are colored with the same color. While some problems are relatively easy to solve, the vertex coloring problem is one of the most computationally complex problems in computer science and mathematics. The vertex coloring problem has many real-world applications such as exam timetabling, register allocation, and the scheduling of taxis.
 
 The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color every vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{enough} vertices such that for every vertex, it is connected to at least one uniquely colored vertex.
 
@@ -44,45 +44,61 @@ The \emph{conflict-free coloring} problem is a relaxed variation of the vertex c
 \label{sec:background}
 To understand the problem, the algorithms to solve it, and its results, we must first understand some graph theory, some computational complexity theory, and the precise definitions of the vertex coloring problem and the conflict-free coloring problem.
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{../figures/example.pdf}
+	\caption{A simple, undirected graph $H$}\label{fig:graph}
+\end{figure}
+
 \subsection{Graph Theory}
 \label{sec:graphtheory}
 
-A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V$ and a set of edges $E$. Each edge consists of a pair of vertices from $V$. For example, $(u,w) \in E$ is an edge connecting vertices $u$ and $w$ where $u,w \in V$. Vertices are adjacent if they are connected by an edge. A graph can be non-technically described as a set of points (vertices) with lines (edges) connecting them. A simple graph is an undirected graph where each edge connects two different vertices and no two edges connect the same pair of vertices. This means a vertex cannot have a loop, i.e. an edge from a vertex to itself.
+A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V$ and a set of edges $E$. Each edge consists of a pair of vertices from $V$. For example, $(u,w) \in E$ is an edge connecting vertices $u$ and $w$ where $u,w \in V$. Vertices are adjacent if they are connected by an edge. A simple graph is an undirected graph where each edge connects two different vertices and no two edges connect the same pair of vertices. All graphs used by the vertex coloring problem and conflict-free coloring problem will be undirected, simple graphs. An example graph that we will use later on is shown in figure \ref{fig:graph}.
 
 The neighborhood of a vertex, denoted $N_G(v)$, is a set of all vertices adjacent to $v$. A \emph{closed} neighborhood consists of all vertices adjacent to $v$ and $v$ itself. Unless stated otherwise, we will assume when talking about neighborhoods that they are closed neighborhoods. The degree of a vertex, denoted $d_G(v)$, is the number of vertices adjacent to $v$. The maximum degree of a graph $G$, denoted $\Delta(G)$, is the maximum degree of its vertices. \cite{bondy1976graph}
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{../figures/example-vcp.pdf}
+	\caption{A minimum vertex coloring of $H$}\label{fig:vcp-example}
+\end{figure}
+
+\todo[inline]{The figures will be shaded with angled lines eventually}
 
 \subsection{Graph Coloring}
 \label{sec:coloring}
 A vertex coloring is an assignment of colors to each vertex of a graph $G$ such that no adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors, i.e. $|S|$, needed to properly color $G$. The \emph{vertex coloring} problem, when given a simple graph $G$, is to find $\chi(G)$. \cite{bondy1976graph}
 
-A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or fewer colors, i.e. $\chi(G) \leq k$. A graph having $\chi(G) = k$ is said to be a \emph{k-chromatic} graph. The \emph{k-colorability} problem asks if a graph can be colored using $k$ colors. This problem is a slightly easier problem than the vertex coloring problem as it is decision problem rather than an optimization problem.
+A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or fewer colors, i.e. $\chi(G) \leq k$. A graph having $\chi(G) = k$ is said to be a \emph{k-chromatic} graph. The \emph{k-colorability} problem asks if a graph can be colored using $k$ colors. This problem is a slightly easier problem than the vertex coloring problem as it is decision problem rather than an optimization problem. An example of a 3-colorable graph and a vertex coloring is shown in figure \ref{fig:vcp-example}.
 
-A \emph{conflict-free coloring} of a graph assigns one of $k$ colors to some of the vertices such that, for every vertex $v$, there is a color that is assigned to exactly one vertex among $v$ and $v$'s neighbors. A \emph{conflict-free k-coloring} of a simple graph $G$ assigns one of $k$ different colors to a subset $S \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the closed neighborhood of $v$. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. \cite{abel2017three}
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=7cm]{../figures/example-cfcp.pdf}
+	\caption{A minimum conflict-free coloring of $H$}\label{fig:cfcp-example}
+\end{figure}
+
+A \emph{conflict-free coloring} of a graph assigns one of $k$ colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors. A \emph{conflict-free k-coloring} of a simple graph $G$ assigns one of $k$ different colors to a subset $S \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the closed neighborhood of $v$. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. \cite{abel2017three}
+
+An example of a conflict-free coloring is shown in figure \ref{fig:cfcp-example}. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}.
 
 \subsection{Computational Complexity Theory}
 \label{sec:complexitytheory}
 A \emph{decision} problem, as mentioned earlier, is a problem that can be answered with a `yes' or a `no' \cite{sipser2006introduction}. A decision problem is said to be in the class \emph{P} if in the worst case, it can be solved with an algorithm that runs in polynomial time. A problem can be solved in polynomial time if an algorithm with input size $n$ can run in at most $n^k$ steps where $k$ is a constant that does not depend on $n$.
 
-Given a decision problem and information showing what the answer is, it can be possible to verify the answer quickly. If a decision problem can be verified in polynomial time but not solved in polynomial time, it is said to be in the class \emph{NP}. Take note that this does not exclude problems in class \emph{P}; \emph{P} is a subset of \emph{NP}. The \emph{k-colorability} problem is an example of a problem in NP. There are currently no known polynomial-time algorithms to solve the VCP but it can be verified in polynomial time. \cite{garey2002computers}
+Given a decision problem and information showing what the answer is, it can be possible to verify the answer quickly. If a decision problem can be verified in polynomial time but not necessarily solved in polynomial time, it is said to be in the class \emph{NP}. Take note that this does not exclude problems in class \emph{P}; \emph{P} is a subset of \emph{NP}.
 
 There are certain problems that can be proven to be as hard as every problem in NP. There problems are said to be NP-hard. A problem is NP-hard if it every problem in NP can be polynomially reduced to it. This brings an important result: if an NP-hard problem can be solved with an algorithm that runs in polynomial time, then any problem in NP could be solved in polynomial time. A decision problem is said to be \emph{NP-complete} when it is both in NP and NP-hard.
 
-The vertex coloring problem (VCP) and the conflict-free coloring problem (CFCP) are not in the class NP as they are not decision problems. A common approach to proving problems as NP-hard or NP-complete is reducing them from a known NP problem. If we find a known hard problem $Y$, then we can prove that another problem $X$ is hard by reducing $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The \emph{k-colorability} problem is proven to be NP-complete with a reduction from 3-SAT, a well-known NP-complete problem \cite{sharma2012new}.
+The vertex coloring problem (VCP) and the conflict-free coloring problem (CFCP) are not in the class NP as they are not decision problems. A common approach to proving problems as NP-hard or NP-complete is a reduction from a known NP problem. If we find a known hard problem $Y$, then we can prove that another problem $X$ is hard by reducing $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The \emph{k-colorability} problem is proven to be NP-complete with a reduction from 3-SAT, a well-known NP-complete problem \cite{sharma2012new}.
 
 
-\section{C-F Coloring of General Graphs}
+\section{CF Coloring of General Graphs}
 
-\section{C-F Coloring of Planar Graphs}
-
-
-\section{Complexity of Coloring C-F Graphs}
+\section{CF Coloring of Planar Graphs}
 
 
-\subsection{General Graphs}
+\section{Complexity of Coloring CF Graphs}
 
-
-\subsection{Planar Graphs}
 
 
 \section{Conclusion}

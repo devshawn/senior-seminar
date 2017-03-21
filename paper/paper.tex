@@ -46,6 +46,8 @@ This is a famous example of the \emph{vertex coloring} problem and one of many g
 
 The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color every vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{enough} vertices such that for every vertex, it is connected to at least one uniquely colored vertex.
 
+This paper looks into some applications and heuristics of conflict-free coloring. We then look into the specific case of conflict-free coloring planar graphs. Section 2 provides background necessary to understand the problem and how it is used. Section 3 introduces some applications for the conflict-free coloring problem. Section 4 describes a heuristic for conflict-free coloring general graphs. Section 5 looks into the specific case of conflict-free coloring planar graphs.
+
 
 \section{Background}
 \label{sec:background}
@@ -110,7 +112,20 @@ For example, imagine a cellular network. Cellular networks are heterogeneous net
 
 The problem when initially setting up these networks comes into play when assigning frequencies. Imagine two base-stations near each other having the same frequency. If a client is in reception range of both base-stations, then mutual interference occurs and the radio link is too noisy to be used for proper communication. The goal is to assign frequencies to base stations such that every client is served by some base-station and to minimize the number of frequencies used.
 
-This problem was initially modeled as a vertex coloring problem, where the vertices are the base-stations and the edges are the pairs of base-stations that overlap in their reception range. This model is too wasteful and restrictive. Imagine a situation where a client is within the reception range of 4 base-stations. The VCP model would require 4 colors, one for each base station. If we assign one base-station a color (say red) and the other 3 (say blue), then we only utilize two colors and the client utilizes the red base-station and has no mutual interference. This is exactly what a conflict-free coloring does. \cite{smorodinsky2013conflict}
+This problem was initially modeled as a vertex coloring problem, where the vertices are the base-stations and the edges are the pairs of base-stations that overlap in their reception range. This model is too wasteful and restrictive. Imagine a situation where a client is within the reception range of 3 base-stations. The VCP model would require 3 colors, one for each base station. If we assign one base-station a color (say blue) and the other 2 (say red), then we only utilize two colors and the client utilizes the blue base-station and has no mutual interference. This model is shown in figure \ref{fig:towers}. This is exactly what a conflict-free coloring does. \cite{smorodinsky2013conflict}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers.pdf}
+	\caption{Cellular tower VCP and CFCP example}\label{fig:towers}
+\end{figure}
+
+\subsection{RFID Networks}
+Radio frequency identification (RFID) networks are similar to wireless networks. An object, such as a credit card with an RFID chip, has a specific tag attached to it. A reader, such as a credit card scanner, can sense the presence of this object and read an ID that is assigned to the tag of the object. RFID is used for tracking progress of automobiles through a production assembly line, timing marathons and races, security access control to parking garages and buildings, and much more.
+
+Multiple RFID readers are often setup in a given location to improve coverage of the overall area. There can also be multiple RFID readers set up that each do a different action after reading a tagged object. Unlike cellular towers, a reader can only be reading (i.e. connected to) a single tag at a time. Two readers trying to access a tagged object at the same time can cause mutual interference. The goal is to schedule for each reader a time slot for when the reader will be active.
+
+Imagine we have a set of readers, $R$. Suppose they all are assigned the same frequency. We would like to schedule each reader $r \in R$ a time slot $t(r)$ where the reader $r$ will be active. We have a set of tags $P$ (i.e. automobile RFID chips). We can say that $P$ is read by our schedule if for every tag $p \in P$, there is at least one reader $r \in R$ and a time $t$ such that $p$ is read by $r$ at time $t$. We want to minimize the total time slots used by the schedule. This can be accomplished by modeling the situation as a conflict-free coloring problem. Again, we aim to find the minimum number of colors needed.
 
 \section{CF Coloring of General Graphs}
 For the rest of this paper, we will consider the NP-complete problem of conflict-free k-colorability. Given a graph $G$ and an integer $k$, determine if graph $G$ can be colored using $k$ or fewer colors. Although all graphs can be conflict-free colored, a given graph $G$ may not be able to be colored with $k$ colors.

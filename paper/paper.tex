@@ -167,6 +167,7 @@ We can see that $G_2$ has both of these as minors. The transformation needed to 
 \end{figure}
 
 \subsection{Iterated Elimination of Distance-3-Sets}
+The iterated elimination of distance-3-sets algorithm is a polynomial time heuristic for generating a conflict-free k-coloring of general graphs that meet the criterion in theorem \ref{thm:criterion}.
 
 \begin{algorithm}
 \caption{Iterated elimination of distance-3-sets} \label{alg:elimination}
@@ -193,12 +194,33 @@ We can see that $G_2$ has both of these as minors. The transformation needed to 
 \end{algorithmic}
 \end{algorithm}
 
+\todo[inline]{Create and go through an example of this algorithm}
+
 \section{CF Coloring of Planar Graphs}
+Conflict-free coloring has some interesting properties when we limit the input graph to be a planar graph. Recall that a graph is planar if it can be drawn on the plane in such a way that its edge intersect only at their endpoints.
 
+\subsection{CF Four Color Theorem}
+Recall the map of the USA example given in the introduction. This is an example of a planar graph and has a famous theorem associated with it. We present this in theorem \ref{thm:four}. This theorem has been proved by multiple groups. The proof by computer that is widely accepted today can be found in \cite{robertson1997four}.
 
-\section{Complexity of Coloring CF Graphs}
+\begin{theorem} \label{thm:four}
+Every loopless planar graph admits a vertex coloring with at most four distinct colors
+\end{theorem}
 
+The conflict-free variation of this theorem is quite simple. We present this in theorem \ref{thm:four-cf}. It is given and proven in \cite{abel2017three}.
 
+\begin{theorem} \label{thm:four-cf}
+Every loopless planar graph admits a conflict-free coloring with at most three distinct colors
+\end{theorem}
+
+This can be easily thought of intuitively as we can take any four-colored planar graph and uncolor all vertices of a chosen color. This leaves us with some vertices uncolored and vertices colored with 3 other colors. Thus, it is always true that a planar graph can be conflict-free colored with 3 colors or less. An example of this is shown in figure \ref{fig:four}.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/four.pdf}
+	\caption{A vertex coloring and CF coloring, respectively}\label{fig:four}
+\end{figure}
+
+\todo[inline]{Go into more methods for planar graphs}
 
 \section{Conclusion}
 \label{sec:conclusion}

@@ -6,5 +6,9 @@
 *.fls
 *.log
 *.out
+*.nav
+*.snm
+*.toc
 paper/paper.pdf
 colorings
+presentation/presentation.pdf

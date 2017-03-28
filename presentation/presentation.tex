@@ -2,6 +2,7 @@
 
 \usepackage{graphicx}
 \usepackage[scale=2]{ccicons}
+\usepackage{multicol}
 
 \usetheme[numbering=counter, progressbar=frametitle, sectionpage=none]{metropolis}
 \setbeamercolor{background canvas}{bg=white}
@@ -28,9 +29,16 @@
     \end{figure}
   \end{frame}
 
-  \section*{Background}
+  \begin{frame}
+    \frametitle{Overview}
+    \begin{multicols}{2}
+      \tableofcontents
+    \end{multicols}
+  \end{frame}
 
-  \subsection*{Graph Theory}
+  \section{Background}
+
+  \subsection{Graph Theory}
 
   \begin{frame}
     \frametitle{Graph Theory}
@@ -49,7 +57,7 @@
     \end{itemize}
   \end{frame}
 
-  \subsection*{Graph Coloring}
+  \subsection{Graph Coloring}
 
   \begin{frame}
     \frametitle{Vertex Coloring}
@@ -83,9 +91,26 @@
     \end{itemize}
   \end{frame}
 
+  \addtocontents{toc}{\protect\vspace{14pt}}
+
+  \section{Applications}
+
+  \subsection{Wireless Networks}
+
+  \subsection{RFID Networks}
+
+  \addtocontents{toc}{\newpage}
+
+
+  \section{CF Coloring for General Graphs}
+
+  \section{CF Coloring for Planar Graphs}
+
   \begin{frame}[standout]
     \centering
-    Thanks to Peter Dolan and Elena Machkasova for their advice and feedback.
+    {Thanks to Peter Dolan, Elena Machkasova,
+
+    and Peh Ng for their advice and feedback.}
     \vfill
     \href{https://github.com/devshawn/senior-seminar}{github.com/devshawn/senior-seminar}
     \vfill

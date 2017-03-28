@@ -184,7 +184,9 @@ The iterated elimination of distance-3-sets algorithm is a polynomial time heuri
 			\State Color $u$ with color $i$
 		\EndFor
 		\State $i \gets i + 1$
-		\State Remove $N[D]$ from $G$
+		\ForAll{$u \in D$}
+			\State Remove $N[u]$ from $G$
+		\EndFor
 		\State Remove all isolated paths from G
 	\EndFor
 \EndWhile

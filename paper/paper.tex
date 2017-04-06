@@ -45,7 +45,7 @@ Consider the map of the 48 contiguous states in the United States of America. Su
 
 This is a famous example of the \emph{vertex coloring} problem and one of many graph coloring problems. The vertex coloring problem aims to find the minimum number of colors needed to color a graph such that no two adjacent vertices are colored with the same color. While some problems are relatively easy to solve, the vertex coloring problem is one of the most computationally complex problems in computer science and mathematics \cite{bondy1976graph}. The vertex coloring problem has many real-world applications such as exam timetabling, register allocation, and the scheduling of taxis.
 
-The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color every vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{enough} vertices such that for every vertex, it is connected to at least one uniquely colored vertex.
+The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color every vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{enough} vertices such that for every vertex, there is a unique color assigned to a vertex within its closed neighborhood.
 
 This paper looks into some applications and heuristics of conflict-free coloring. We then look into the specific case of conflict-free coloring planar graphs. Section 2 provides the background necessary to understand the problem and how it is used. Section 3 introduces some applications for the conflict-free coloring problem. Section 4 describes a heuristic for conflict-free coloring general graphs. Section 5 looks into the specific case of conflict-free coloring planar graphs.
 
@@ -63,13 +63,13 @@ To understand the problem, the algorithms to solve it, and its results, we must 
 \subsection{Graph Theory}
 \label{sec:graphtheory}
 
-A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V$ and a set of edges $E$. Each edge consists of a set of two unordered vertices from $V$. For example, $\{u, w\} \in E$ is an edge connecting vertices $u$ and $w$ where $u,w \in V$. Vertices are adjacent if they are connected by an edge. A simple graph is an undirected graph where each edge connects two different vertices and no two edges connect the same pair of vertices. All graphs used by the vertex coloring problem and conflict-free coloring problem will be undirected, simple graphs. An example graph that we will use later on is shown in figure \ref{fig:graph}.
+A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V$ and a set of edges $E$. Each edge consists of a set of two unordered vertices from $V$. For example, $\{u, w\} \in E$ is an edge connecting vertices $u$ and $w$ where $u,w \in V$. Vertices are adjacent if they are connected by an edge. A simple graph is an undirected graph where each edge connects two different vertices and no two edges connect the same pair of vertices. A planar graph is a graph that can be drawn on the plane such that its edges only intersect at their endpoints. This drawing is referred to as a planar drawing. All graphs used by the vertex coloring problem and conflict-free coloring problem will be undirected, simple graphs. An example graph that we will use later on is shown in figure \ref{fig:graph}.
 
 The neighborhood of a vertex, denoted $N_G(v)$, is a set of all vertices adjacent to $v$. A \emph{closed} neighborhood consists the vertices adjacent to $v$ plus $v$ itself. Unless stated otherwise, we will assume when writing about neighborhoods that they are closed neighborhoods. For example, let's examine $N_{G_1}(1)$ from figure  \ref{fig:graph}. The open neighborhood of 1 is $\{2, 5\}$ while the closed neighborhood is $\{1, 2, 5\}$.
 
-A path is a sequence of edges that connect a sequence of distinct vertices. A component of a graph $G$ is a subgraph $H$ where $H$ is connected and $H$ is not contained in any connected subgraph of $G$ that has more vertices or edges than $H$ has. An isolated path is a component that is itself a path.
+A \emph{path} is a sequence of edges that connect a sequence of distinct vertices. A component of a graph $G$ is a subgraph $H$ where $H$ is connected and $H$ is not contained in any connected subgraph of $G$ that has more vertices or edges than $H$ has. An isolated path is a component that is itself a path.
 
-A planar graph is a graph that can be drawn on the plane such that its edges only intersect at their endpoints. This drawing is referred to as a planar drawing. An outerplanar graph is a graph that has a planar drawing where every vertex belongs to the outer face of the drawing. \cite{bondy1976graph,west2001introduction}
+The distance of a path can be thought of the smallest number of edges needed to be crossed to get from one vertex to another vertex. For example, in figure \ref{fig:graph}, the distance from vertex 3 to vertex 4 would be 3 as it takes 3 edges to get there. A \emph{distance-3-set} is a set of vertices that all have exactly distance 3 from each other. An example of a distance-3-set from figure \ref{fig:graph} would be $\{3,4\}$. \cite{bondy1976graph,west2001introduction}
 
 \begin{figure}[h]
 	\centering
@@ -91,24 +91,24 @@ A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or f
 
 A \emph{conflict-free k-coloring} of a simple graph $G$ assigns one of $k$ different colors to a subset $P \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the closed neighborhood of $v$. The set $V \setminus S$ contains any uncolored vertices. Generally, a \emph{conflict-free coloring} of a graph assigns colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. \cite{abel2017three}
 
-An example of a conflict-free coloring is shown in figure \ref{fig:cfcp-example}. We observe from figures \ref{fig:vcp-example} and \ref{fig:cfcp-example}, $\chi(G_1) = 3$ and $\chi_{CF}(G_1) = 2$. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}.
+An example of a conflict-free coloring is shown in figure \ref{fig:cfcp-example}. All uncolored vertices are in gray. It is a valid conflict-free coloring because every vertex has a unique color within its closed neighborhood. For example, $N(1) = \{1: uncolored,\ 2: uncolored,\ 5: red\}$. Thus, red is the unique color within the closed neighborhood of vertex 1. We observe from figures \ref{fig:vcp-example} and \ref{fig:cfcp-example}, $\chi(G_1) = 3$ and $\chi_{CF}(G_1) = 2$. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}.
 
 A dominating set is a subset $D$ of $V$ such that every vertex not in $D$ is adjacent to at least one vertex in $D$. The domination number of $G$, denoted $\gamma(G)$, is the size of a minimum dominating set of G. The \emph{conflict-free domination number} for some $k$, denoted $\gamma_{CF}^k(G)$, is the minimum number of vertices that have to be colored in a conflict-free k-coloring of $G$. An example of a dominating set is $\{3, 5\}$ of graph $G_1$ where $\gamma(G_1) = 2$. The \emph{k-conflict-free dominating set} problem asks if a given k-coloring of a graph colors the minimum amount of vertices needed to have a coloring that utilizes $k$ colors.
 
 \subsection{Computational Complexity Theory}
 \label{sec:complexitytheory}
-A \emph{decision} problem, as mentioned earlier, is a problem that can be answered with a `yes' or a `no' \cite{sipser2006introduction}. A decision problem is said to be in the class \emph{P} if in the worst case, it can be solved with an algorithm that runs in polynomial time. A problem can be solved in polynomial time if an algorithm with input size $n$ can run in at most $n^k$ steps where $k$ is a constant that does not depend on $n$.
+A \emph{decision} problem, as mentioned earlier, is a problem that can be answered with a `yes' or a `no' \cite{sipser2006introduction}. A problem can be solved in polynomial time if an algorithm with input size $n$ can run in at most $n^k$ steps where $k$ is a constant that does not depend on $n$. A decision problem is said to be in the class \emph{P} if in the worst case, it can be solved with an algorithm that runs in polynomial time.
 
 Given a decision problem and a proposed solution, it can be possible to verify the answer quickly. If a decision problem can be verified in polynomial time but not necessarily solved in polynomial time, it is said to be in the class \emph{NP}. Take note that this does not exclude problems in class P; P is a subset of NP.
 
-There are certain problems, called NP-hard, that can be proven to be as hard as every problem in NP. A problem is NP-hard if it every problem in NP can be polynomially reduced to it. This means that if an NP-hard problem can be solved with a polynomial-time algorithm, then any problem in NP could be solved in polynomial time. A decision problem is said to be \emph{NP-complete} when it is both in NP and NP-hard.
+There are certain problems, called NP-hard, that can be proven to be as hard as every problem in NP. If problem $Y$ can be transformed into problem $X$ by a polynomial-time algorithm, it is said that $Y$ can be polynomially reduced to $X$. A problem is NP-hard if it every problem in NP can be polynomially reduced to it. This means that if an NP-hard problem can be solved with a polynomial-time algorithm, then any problem in NP could be solved in polynomial time. A decision problem is said to be \emph{NP-complete} when it is both in NP and NP-hard.
 
 The k-colorability problem and the conflict-free k-colorability problem are NP-complete. This can be proven by using a reduction from a known NP-complete problem. If we find a known hard problem $Y$, we can prove that another problem $X$ is hard by a reduction from $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The \emph{k-colorability} problem is proven to be NP-complete with a reduction from 3-SAT, a well-known NP-complete problem \cite{sharma2012new}.
 
 It is often desirable and necessary to use approximation algorithms, known as heuristics, to solve complex problems like the VCP and the CFCP. In our case, heuristics are polynomial-time algorithms that give good, but not optimal, solutions to our optimization problems. A polynomial-time approximation scheme (PTAS) is any polynomial-time approximation algorithm that takes an instance of an optimization problem and a parameter $\epsilon > 0$ and produces a solution that is within a factor $(1 + \epsilon)$ (for minimization problems) of being optimal.
 
 \section{Applications}
-Before digging into methods for solving the conflict-free coloring problem, it is important to understand why conflict-free coloring is useful. It is useful to know what motivated the recent studies into conflict-free coloring.
+Before digging into methods for solving the CFCP, it is important to understand what motivated the recent studies into conflict-free coloring.
 
 \subsection{Wireless Networks}
 The main application for conflict-free coloring surrounds wireless networks. Cellular networks, radio, television broadcasting, and satellite communication utilize some form of wireless networks. For each of these systems, a frequency assignment problem arises with specific characteristics.
@@ -117,13 +117,13 @@ For example, imagine a cellular network. Cellular networks are heterogeneous net
 
 The problem when initially setting up these networks comes into play when assigning frequencies. Imagine two base-stations near each other having the same frequency. If a client is in reception range of both base-stations, then mutual interference occurs and the radio link is too noisy to be used for proper communication. The goal is to assign frequencies to base stations such that every client is served by some base-station and to minimize the number of frequencies used.
 
-This problem was initially modeled as a vertex coloring problem, where the vertices are the base-stations and the edges are the pairs of base-stations that overlap in their reception range. This model is too wasteful and restrictive. Imagine a situation where a client is within the reception range of 3 base-stations. The VCP model would require 3 colors, one for each base station. If we assign one base-station a color (say blue) and the other 2 (say red), then we only utilize two colors and the client utilizes the blue base-station and has no mutual interference. This model is shown in figure \ref{fig:towers}. This is exactly what a conflict-free coloring does. \cite{smorodinsky2013conflict}
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers.pdf}
 	\caption{Cellular tower VCP and CFCP example}\label{fig:towers}
 \end{figure}
+
+This problem was initially modeled as a vertex coloring problem, where the vertices are the base-stations and the edges are the pairs of base-stations that overlap in their reception range. This model is too wasteful and restrictive. Imagine a situation where a client is within the reception range of 3 base-stations. The VCP model would require 3 colors, one for each base station. If we assign one base-station a color (say blue) and the other 2 (say red), then we only utilize two colors and the client utilizes the blue base-station and has no mutual interference. This model is shown in figure \ref{fig:towers}. This is exactly what a conflict-free coloring does. \cite{smorodinsky2013conflict}
 
 \subsection{RFID Networks}
 Radio frequency identification (RFID) networks are similar to wireless networks. An object, such as a credit card with an RFID chip, has a specific tag attached to it. A reader, such as a credit card scanner, can sense the presence of this object and read an ID that is assigned to the tag of the object. RFID is used for tracking progress of automobiles through a production assembly line, timing marathons and races, security access control to parking garages and buildings, and much more.
@@ -196,7 +196,7 @@ The iterated elimination of distance-3-sets algorithm is a polynomial-time heuri
 		\EndFor
 		\State $i \gets i + 1$
 		\ForAll{$u \in D$}
-			\State Remove $N[u]$ from $G$
+			\State Remove $N(u)$ from $G$
 		\EndFor
 		\State Remove all isolated paths from G
 	\EndFor
@@ -207,13 +207,13 @@ The iterated elimination of distance-3-sets algorithm is a polynomial-time heuri
 
 To illustrate this algorithm and show it produces a valid conflict-free coloring, we'll use graph $G_3$ shown in figure \ref{fig:algorithm1}. The algorithm starts by setting a variable $i$, the current color, to a (color) 1. We then remove all isolated paths from the input graph. There are currently no isolated paths in $G_3$, so we do not remove anything.
 
+Since $G_3$ is not empty, we enter the first $while$ loop and set a variable $D$ to the empty set. $G_3$ has only one component (the whole graph) so we will only iterate through the $for\ all$ on line 5 once. Pick any vertex from $G_3$, say vertex 8. We then add 8 to set $D$ and thus $D \gets \{8\}$. Now, while there exists a vertex with a distance of at least 3 from all vertices in $D$, we must pick a vertex of exactly distance 3 and add it to $D$. For example, vertex 2 has distance 3 from vertex 8. Now, we add vertex 2 to $D$ and now $D \gets \{2, 8\}$.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=6cm]{../figures/algorithm1.pdf}
 	\caption{Graph $G_3$ to illustrate algorithm \ref{alg:elimination}}\label{fig:algorithm1}
 \end{figure}
-
-Since $G_3$ is not empty, we enter the first $while$ loop and set a variable $D$ to the empty set. $G_3$ has only one component (the whole graph) so we will only iterate through the $for\ all$ on line 5 once. Pick any vertex from $G_3$, say vertex 8. We then add 8 to set $D$ and thus $D \gets \{8\}$. Now, while there exists a vertex with a distance of at least 3 from all vertices in $D$, we must pick a vertex of exactly distance 3 and add it to $D$. For example, vertex 2 has distance 3 from vertex 8. Now, we add vertex 2 to $D$ and now $D \gets \{2, 8\}$.
 
 There are no more vertices of at least distance 3 from all vertices in $D$, so we move on to line 11. We color all vertices in $D$, $\{2,8\}$, with color $i$ which is known as color 1 (say red). This coloring is shown in figure \ref{fig:algorithm1-step1}. We increase $i$ by one leading to $i \gets 2$.
 
@@ -241,7 +241,7 @@ The last step of the algorithm is to remove all isolated paths from $G$. Since w
 
 It was easy to color our removed isolated paths as they consisted solely of a vertex. In a more complex example, an isolated path is colored by coloring the middle vertex of every three vertices \cite{abel2017three}. This graph is not 1-colorable as it includes $K_3$ as a minor. As we have shown that this graph is 2-colorable and know it is not 1-colorable, we can conclude that $\chi_{CF}(G_3) = 2$.
 
-It is wise to note that this algorithm does not necessariyminimize the number of colored vertices. It can be beneficial to minimize the number of colored vertices (less cost) in certain applications such as building wireless networks. The conflict-free domination number for $k=2$ of $G_3$, $\gamma_{CF}^2(G_3)$, is three even though we have four colored vertices in our example. This can be seen by coloring vertices $\{2, 8\}$ with one color and vertex 6 with another.
+It is wise to note that this algorithm does not necessarily minimize the number of colored vertices. It can be beneficial to minimize the number of colored vertices (less cost) in certain applications such as building wireless networks. The conflict-free domination number for $k=2$ of $G_3$, $\gamma_{CF}^2(G_3)$, is three even though we have four colored vertices in our example. This can be seen by coloring vertices $\{2, 8\}$ with one color and vertex 6 with another.
 
 \section{CF Coloring of Planar Graphs}
 \label{sec:planar-coloring}
@@ -249,7 +249,7 @@ Conflict-free coloring has some interesting properties when we limit the input g
 
 \subsection{Bounds for Planar Graphs}
 \label{sec:bounds}
-Recall the map of the USA example given in the introduction. This is an example of a planar graph and illustrates a famous theorem associated with it. We present this theorem, called the four color theorem, in theorem \ref{thm:four}. It has been proven by multiple groups. The proof by computer that is widely accepted today can be found in \cite{robertson1997four}.
+Recall the map of the USA example given in the introduction. This is an example of a planar graph and illustrates a famous theorem associated with it. We present this theorem, called the four color theorem, in theorem \ref{thm:four}. The proof by computer that is widely accepted today can be found in \cite{robertson1997four}.
 
 \begin{theorem} \label{thm:four}
 Every loopless planar graph admits a vertex coloring with at most four distinct colors.
@@ -257,20 +257,21 @@ Every loopless planar graph admits a vertex coloring with at most four distinct 
 
 Due to theorem \ref{thm:four}, we immediately know that every planar graph is conflict-free 4-colorable. This raises the question of whether there are planar graphs that require four colors or if fewer colors could suffice for all planar graphs. This leads us to the conflict-free variation of this theorem. We present this in theorem \ref{thm:four-cf}. It is given and proven in \cite{abel2017three}.
 
-\begin{theorem} \label{thm:four-cf}
-Every loopless planar graph admits a conflict-free coloring with at most three distinct colors.
-\end{theorem}
-
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/four.pdf}
 	\caption{A vertex and CF coloring, respectively}\label{fig:four}
 \end{figure}
 
-Figure \ref{fig:four} looks at a planar graph that requires four colors in a proper vertex coloring. Based on theorem \ref{thm:four-cf}, we know that this planar graph can be conflict-free colored with only three colors.
+\begin{theorem} \label{thm:four-cf}
+Every loopless planar graph admits a conflict-free coloring with at most three distinct colors.
+\end{theorem}
 
-\subsection{Minimizing Colored Vertices}
-Abel et. al \cite{abel2017three} present specific results for 3-colorable graphs. They examine minimizing the number of colored vertices of 3-colorable graphs. They prove theorems \ref{thm:approximate-cfds} and \ref{thm:outerplanar-cfdn} by using a polynomial-time algorithm that transforms a dominating set $D$ of a planar graph $G$ into a conflict-free k-coloring of $G$ where only the vertices of $D$ are colored. This algorithm is defined in algorithm \ref{alg:cf-dominating}.
+Figure \ref{fig:four} looks at a planar graph that requires four colors in a proper vertex coloring. Based on theorem \ref{thm:four-cf}, we know that this planar graph can be conflict-free colored with only three colors. This is shown in figure \ref{fig:four} as well.
+
+\subsection{CF Coloring via Dominating Set}
+\label{sec:coloring-dom}
+Algorithm \ref{alg:elimination} presented in section \ref{sec:iterated} gives us an efficient heuristic for coloring general graphs including planar graphs. Algorithm \ref{alg:cf-dominating}, called conflict-free via dominating set, gives us another way of coloring planar graphs, albeit likely less efficient.
 
 \begin{algorithm}
 \caption{Conflict-Free Coloring via Dominating Set} \label{alg:cf-dominating}
@@ -286,21 +287,6 @@ Abel et. al \cite{abel2017three} present specific results for 3-colorable graphs
 \end{algorithmic}
 \end{algorithm}
 
-Because the planar minimum dominating set problem is NP-hard \cite{garey2002computers}, we know that the conflict-free dominating set problem is NP-hard because we aim to find a minimum dominating set. It follows that the corresponding decision problem, the k-conflict-free dominating set problem, is NP-complete.
-
-\begin{theorem} \label{thm:approximate-cfds}
-For $k \geq 4$, the k-conflict-free dominating set problem is NP-complete and $\gamma_{CF}^k(G) = \gamma(G)$ for a planar graph $G$. Also, there exists a PTAS for estimating $\gamma_{CF}^k(G)$.
-\end{theorem}
-
-We get a PTAS for the conflict-free domination number by applying algorithm \ref{alg:cf-dominating} and finding the dominating set using the PTAS defined by Baker and Hill \cite{baker1994approximation}. As the input graph $G$ is planar, the resulting graph $G'$ is also planar because $G'$ is a minor of $G$. Thus, it can be colored with 4 colors by \ref{thm:four}. We then color $G$ with the colors of $G'$, leaving any vertex in $G$ but not in $G'$ uncolored. This leaves us with a conflict-free 4-coloring of $G$.
-
-\begin{theorem} \label{thm:outerplanar-cfdn}
-If a graph $G$ is outerplanar, then $\gamma_{CF}^k(G) = \gamma(G)$. Also, there exists a linear-time algorithm to compute $\gamma_{CF}^k(G)$.
-\end{theorem}
-
-\subsection{CF Coloring via Dominating Set}
-Algorithm \ref{alg:elimination} presented in section \ref{sec:iterated} gives us an efficient heuristic for coloring general graphs including planar graphs. Algorithm \ref{alg:cf-dominating} gives us another way of coloring planar graphs, albeit likely less efficient.
-
 To demonstrate this algorithm, we will utilize graph $G_3$ as we did for algorithm \ref{alg:elimination}. It is a planar graph, so we can use this algorithm to generate a conflict-free coloring. First, we must find a dominating set for $G_3$. Finding a dominating set can be done with a greedy algorithm. For small graphs, such as $G_3$, it is easy to find one by hand. A dominating set of $G_3, \{2, 6, 8\},$ is shown in figure \ref{fig:algorithm2-step1}.
 
 \begin{figure}[h]
@@ -311,13 +297,15 @@ To demonstrate this algorithm, we will utilize graph $G_3$ as we did for algorit
 
 We assign our dominating set $\{2,6,8\}$ to $D$. Since $V \setminus D \neq \emptyset$, we enter the \emph{for all} loop in line 2. Here, we iterate through all vertices in $V \setminus D$. For each vertex $v \in V \setminus D$, we will pick another vertex in $D$ that is connected to $v$ by an edge. Then, we will contract the edge $\{u, v\}$ towards $u$. This means that we combine $u$ and $v$ together and update any edges to reflect the changes.
 
+To illustrate this, we start the loop by picking a vertex $v$, say vertex 3. We pick vertex $u$ to be vertex 2 because $2 \in D$ and $\{2, 3\} \in E$. We contract the edge and show the resulting graph $G$ in figure \ref{fig:algorithm2-step2}. By iterating over the rest of the vertices in $V \setminus D$, we obtain a graph that is itself a path from vertex 2 to vertex 6 to vertex 8. This graph, along with its proper vertex coloring, is shown in figure \ref{fig:algorithm2-step3}. We can find a proper vertex coloring by any heuristic, such as a greedy algorithm, for the VCP.
+
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=6cm]{../figures/algorithm2-step2.pdf}
 	\caption{The graph after the first \emph{for} loop}\label{fig:algorithm2-step2}
 \end{figure}
 
-To illustrate this, we start the loop by picking a vertex $v$, say vertex 3. We pick vertex $u$ to be vertex 2 because $2 \in D$ and $\{2, 3\} \in E$. We contract the edge and show the resulting graph $G$ in figure \ref{fig:algorithm2-step2}. By iterating over the rest of the vertices in $V \setminus D$, we obtain a graph that is itself a path from vertex 2 to vertex 6 to vertex 8. This graph, along with its proper vertex coloring, is shown in figure \ref{fig:algorithm2-step3}. We can find a proper vertex coloring by any heuristic, such as a greedy algorithm, for the VCP.
+Lastly, we color our original graph $G_3$ based on the proper vertex coloring we generated. We leave any nodes not in the graph $G$ uncolored when we color $G_3$. The coloring of $G_3$ is shown in figure \ref{fig:algorithm2-step4}. It is clear that this has produced a conflict-free coloring.
 
 \begin{figure}[h]
 	\centering
@@ -325,14 +313,24 @@ To illustrate this, we start the loop by picking a vertex $v$, say vertex 3. We 
 	\caption{The graph after lines 2-5}\label{fig:algorithm2-step3}
 \end{figure}
 
-Lastly, we color our original graph $G_3$ based on the proper vertex coloring we generated. We leave any nodes not in the graph $G$ uncolored when we color $G_3$. The coloring of $G_3$ is shown in figure \ref{fig:algorithm2-step4}. It is clear that this has produced a conflict-free coloring. Looking back at algorithm \ref{alg:elimination}, we had 4 colored vertices. Here, we have 3, and it is true that we have minimized colored vertices as $\gamma_{CF}^2(G_3) = 3$.
-
+Take note that this algorithm has produced fewer colored vertices than algorithm \ref{alg:elimination}. We had 4 colored vertices based on that algorithm where here we have 3. This algorithm helps us prove theorems based on minimizing the number of colored vertices.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=6cm]{../figures/algorithm2-step4.pdf}
 	\caption{$G_3$ with minimized colored vertices}\label{fig:algorithm2-step4}
 \end{figure}
+
+\subsection{Minimizing Colored Vertices}
+Abel et. al \cite{abel2017three} present results on minimizing colored vertices when conflict-free coloring planar graphs. They propose and prove theorem \ref{thm:approximate-cfds} by using the polynomial-time algorithm described in algorithm \ref{alg:cf-dominating}.
+
+Because the planar minimum dominating set problem is NP-hard \cite{garey2002computers}, we know that the conflict-free dominating set problem is NP-hard because we aim to find a dominating set. It follows that the corresponding decision problem, the k-conflict-free dominating set problem, is NP-complete.
+
+\begin{theorem} \label{thm:approximate-cfds}
+For $k \geq 4$, the k-conflict-free dominating set problem is NP-complete and $\gamma_{CF}^k(G) = \gamma(G)$ for a planar graph $G$. Also, there exists a PTAS for estimating $\gamma_{CF}^k(G)$.
+\end{theorem}
+
+We get a PTAS for the conflict-free domination number by applying algorithm \ref{alg:cf-dominating} and finding the dominating set using the PTAS defined by Baker and Hill \cite{baker1994approximation}. As the input graph $G$ is planar, the resulting graph $G'$ is also planar because $G'$ is a minor of $G$. Thus, it can be colored with 4 colors or less by \ref{thm:four}. We then color $G$ with the colors of $G'$, leaving any vertex in $G$ but not in $G'$ uncolored. This leaves us with a conflict-free coloring of $G$.
 
 
 

@@ -3,6 +3,12 @@
 \usepackage{graphicx}
 \usepackage[scale=2]{ccicons}
 \usepackage{multicol}
+\usepackage[absolute,overlay]{textpos}
+% \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
+% {eso-pic}
+
+\newcommand{\exampleheight}{1.9cm}
+\newcommand{\examplewidth}{16cm}
 
 \usetheme[numbering=counter, progressbar=frametitle, sectionpage=none]{metropolis}
 \setbeamercolor{background canvas}{bg=white}
@@ -43,18 +49,41 @@
   \begin{frame}
     \frametitle{Graph Theory}
 
-    \begin{figure}[h]
-      \centering
-      \includegraphics[width=8cm]{../figures/example.pdf}
-    \end{figure}
+
+
+    \only<1-2>{
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example.pdf}
+      \end{textblock*}
+    }
+
+    \only<3> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-neighborhoods-1.pdf}
+      \end{textblock*}
+    }
+
+    \only<4> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-neighborhoods-2.pdf}
+      \end{textblock*}
+    }
+
+    \vspace{4cm}
 
     \vfill
 
     \begin{itemize}
-      \item A \textbf{graph} is a set of vertices \emph{V} and a set of edges \emph{E}.
-      \item The \textbf{neighborhood} of a vertex $v$ is a set of all vertices adjacent to $v$.
-      \item The \textbf{closed neighborhood} of $v$ includes the neighborhood of $v$ and $v$ itself.
+      \item<1-4> A \textbf{graph} is the set of vertices \emph{V} and a set of edges \emph{E}.
+      \item<2-4> The \textbf{neighborhood} of a vertex $v$ is a set of all vertices adjacent to $v$ plus $v$ itself.
+      \only<1-2>{\item<3> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
+      \only<3>{\item<3> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
+      \only<4>{\item<4> Example: The neighborhood of vertex 5: $\{1, 2, 4, 5, 6\}$.}
     \end{itemize}
+
   \end{frame}
 
   \subsection{Graph Coloring}
@@ -62,12 +91,15 @@
   \begin{frame}
     \frametitle{Vertex Coloring}
 
-    \begin{figure}[h]
+    \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
       \centering
       \includegraphics[width=8cm]{../figures/example-vcp.pdf}
-    \end{figure}
+    \end{textblock*}
+
+    \vspace{4cm}
 
     \vfill
+
 
     \begin{itemize}
       \item A proper \textbf{vertex coloring} of a graph $G$ is an assignment of colors to each vertex such that no adjacent vertices share the same color.
@@ -83,10 +115,9 @@
       \includegraphics[width=8cm]{../figures/example-cfcp.pdf}
     \end{figure}
 
-    \vfill
 
     \begin{itemize}
-      \item A \textbf{conflict-free coloring} of a graph $G$ assigns one of $k$ colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors.
+      \item A \textbf{conflict-free coloring} of a graph $G$ assigns colors to some vertices such that there is a uniquely colored vertex within the closed neighborhood of every vertex.
       \item Every proper vertex coloring of $G$ is also a conflict-free coloring of $G$. This is because every vertex can be its own conflict-free neighbor.
     \end{itemize}
   \end{frame}

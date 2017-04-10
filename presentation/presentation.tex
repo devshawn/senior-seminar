@@ -9,6 +9,10 @@
 % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 % {eso-pic}
 
+\setitemize{label=\usebeamerfont*{itemize item}%
+  \usebeamercolor[fg]{itemize item}
+  \usebeamertemplate{itemize item}}
+
 \newcommand{\exampleheight}{1.9cm}
 \newcommand{\examplewidth}{16cm}
 
@@ -26,7 +30,7 @@
   \begin{frame}
     \begin{figure}[h]
       \centering
-      \includegraphics[width=14cm]{../figures/map-no-colors-1.pdf}
+      \includegraphics[width=14cm]{../figures/map-no-colors-3.pdf}
     \end{figure}
   \end{frame}
 
@@ -101,7 +105,6 @@
     \vspace{4cm}
     \vfill
 
-
     \begin{itemize}
       \item A proper \textbf{vertex coloring} of a graph $G$ assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
       \item The \textbf{chromatic number} of $G$ is the minimum number of colors needed to properly color $G$.
@@ -144,10 +147,9 @@
       Every vertex $v$ has at least one unique color within its neighborhood.
     \end{center}
 
+    \pause
+
     \begin{columns}
-
-      \pause
-
       \begin{column}{0.5\textwidth}
         \begin{itemize}[leftmargin=1.4cm]
           \item[$v$ = 1:] $\{1: none,\ 2: none,\ 5: \textbf{red}\}$
@@ -165,7 +167,6 @@
           \item[$v$ = 3:] $\{2: red,\ 3: \textbf{blue}\}$
         \end{itemize}
       \end{column}
-
     \end{columns}
 
   \end{frame}
@@ -183,14 +184,14 @@
 
     \begin{columns}
       \begin{column}{0.33333\textwidth}
-        \only<2,4-7>{
+        \only<2>{
           \begin{figure}[h]
             \centering
             \includegraphics[width=3cm]{../figures/examples-1-incorrect-1.pdf}
           \end{figure}
         }
 
-        \only<3>{
+        \only<3-7>{
           \begin{figure}[h]
             \centering
             \includegraphics[width=3cm]{../figures/examples-1-incorrect-1-corrected.pdf}
@@ -206,14 +207,14 @@
 
       \begin{column}{0.33333\textwidth}
 
-        \only<4,6-7>{
+        \only<4>{
         \begin{figure}[h]
           \centering
           \includegraphics[width=3cm]{../figures/examples-1-incorrect-2.pdf}
         \end{figure}
         }
 
-        \only<5>{
+        \only<5-7>{
         \begin{figure}[h]
           \centering
           \includegraphics[width=3cm]{../figures/examples-1-incorrect-2-corrected.pdf}
@@ -242,7 +243,6 @@
           \includegraphics[width=3cm]{../figures/examples-1-incorrect-3-corrected.pdf}
         \end{figure}
         }
-
 
         \centering
         Vertex 3 does not have a unique color in its neighborhood.

@@ -111,11 +111,16 @@
 %    {\algorithmicend\ \algorithmicwhile}%
  \algdef{SE}[WHILE]{CWhile}{EndWhile}[1]{\ColorLine\algorithmicwhile\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicwhile}%
 
-\algdef{SE}[FOR]{CFOR}{ENDFOR}%
-   [2][default]{\ColorLine\algorithmicfor\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
-   {\algorithmicend\ \algorithmicfor}%
-\algdef{S}[FOR]{CFORALL}%
-   [2][default]{\ColorLine\algorithmicforall\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+% \algdef{SE}[FOR]{CFOR}{ENDFOR}%
+%    [2][default]{\ColorLine\algorithmicfor\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+%    {\algorithmicend\ \algorithmicfor}%
+% \algdef{S}[FOR]{CFORALL}%
+%    [2][default]{\ColorLine\algorithmicforall\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+
+\algdef{SE}[FOR]{For}{EndFor}[1]{\algorithmicfor\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicfor}%
+
+\algdef{S}[FOR]{CForAll}[1]{\ColorLine\algorithmicforall\ #1\ \algorithmicdo}%
+
 \algdef{SE}[LOOP]{CLOOP}{ENDLOOP}%
    [1][default]{\ColorLine\algorithmicloop\ALG@compatcomm{#1}}%
    {\algorithmicend\ \algorithmicloop}%
@@ -131,6 +136,7 @@
    [1][default]{\ColorLine\algorithmicelse\ALG@compatcomm{#1}}%
 \makeatother
 \algtext*{EndWhile}%
+\algtext*{EndFor}%
 
 
 \usetheme[numbering=counter, progressbar=frametitle, sectionpage=none]{metropolis}
@@ -553,261 +559,7 @@
   \begin{frame}
     \frametitle{Iterated Elimination of Distance-3-Sets}
 
-    \only<1>{
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          \begin{algorithm}[H]
-            \caption*{\textbf{Algorithm} IEDS}
-            \scriptsize
-            \begin{algorithmic}[1]
-            \State $i \gets 1$
-            \State Remove all isolated paths from $G$
-            \While{$G$ is not empty}
-              \State $D \gets \emptyset$
-              \ForAll{components of $G$}
-                \State Pick any vertex $v$
-                \State $D \gets D \cup \{ v \}$
-                \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
-                  \State Pick $u$ at distance 3 from some vertex in $D$
-                  \State $D \gets D \cup \{ w \}$
-                \EndWhile
-                \ForAll{$u \in D$}
-                  \State Color $u$ with color $i$
-                \EndFor
-                \State $i \gets i + 1$
-                \ForAll{$u \in D$}
-                  \State Remove $N(u)$ from $G$
-                \EndFor
-                \State Remove all isolated paths from G
-              \EndFor
-            \EndWhile
-            \State Color all removed isolated paths using color $i$
-            \end{algorithmic}
-          \end{algorithm}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{center}
-            \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
-              \begin{figure}
-                \centering
-                \includegraphics[width=6cm]{../figures/algorithm1.pdf}
-                \caption*{A simple, undirected graph $G$}
-              \end{figure}
-            \end{textblock*}
-          \end{center}
-        \end{column}
-      \end{columns}
-    }
-
-    \only<2-6>{
-      \begin{textblock*}{8cm}(8cm, 6cm) % {block width} (coords)
-        \begin{center}
-          $i= 1$
-        \end{center}
-      \end{textblock*}
-    }
-
-    \only<2>{
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          \begin{algorithm}[H]
-            \caption*{\textbf{Algorithm} IEDS}
-            \scriptsize
-            \begin{algorithmic}[1]
-            \CSTATE $i \gets 1$
-            \CSTATE Remove all isolated paths from $G$
-            \While{$G$ is not empty}
-              \State $D \gets \emptyset$
-              \ForAll{components of $G$}
-                \State Pick any vertex $v$
-                \State $D \gets D \cup \{ v \}$
-                \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
-                  \State Pick $u$ at distance 3 from some vertex in $D$
-                  \State $D \gets D \cup \{ w \}$
-                \EndWhile
-                \ForAll{$u \in D$}
-                  \State Color $u$ with color $i$
-                \EndFor
-                \State $i \gets i + 1$
-                \ForAll{$u \in D$}
-                  \State Remove $N(u)$ from $G$
-                \EndFor
-                \State Remove all isolated paths from G
-              \EndFor
-            \EndWhile
-            \State Color all removed isolated paths using color $i$
-            \end{algorithmic}
-          \end{algorithm}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{center}
-            \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
-              \begin{figure}
-                \centering
-                \includegraphics[width=6cm]{../figures/algorithm1.pdf}
-                \caption*{A simple, undirected graph $G$}
-              \end{figure}
-            \end{textblock*}
-          \end{center}
-        \end{column}
-      \end{columns}
-    }
-
-    \only<3>{
-      \begin{textblock*}{8cm}(8cm, 6.5cm) % {block width} (coords)
-        \begin{center}
-          $D= \{\}$
-        \end{center}
-      \end{textblock*}
-
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          \begin{algorithm}[H]
-            \caption*{\textbf{Algorithm} IEDS}
-            \scriptsize
-            \begin{algorithmic}[1]
-            \State $i \gets 1$
-            \State Remove all isolated paths from $G$
-            \While{$G$ is not empty}
-              \CSTATE $D \gets \emptyset$
-              \ForAll{components of $G$}
-                \State Pick any vertex $v$
-                \State $D \gets D \cup \{ v \}$
-                \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
-                  \State Pick $u$ at distance 3 from some vertex in $D$
-                  \State $D \gets D \cup \{ w \}$
-                \EndWhile
-                \ForAll{$u \in D$}
-                  \State Color $u$ with color $i$
-                \EndFor
-                \State $i \gets i + 1$
-                \ForAll{$u \in D$}
-                  \State Remove $N(u)$ from $G$
-                \EndFor
-                \State Remove all isolated paths from G
-              \EndFor
-            \EndWhile
-            \State Color all removed isolated paths using color $i$
-            \end{algorithmic}
-          \end{algorithm}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{center}
-            \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
-              \begin{figure}
-                \centering
-                \includegraphics[width=6cm]{../figures/algorithm1.pdf}
-                \caption*{A simple, undirected graph $G$}
-              \end{figure}
-            \end{textblock*}
-          \end{center}
-        \end{column}
-      \end{columns}
-    }
-
-    \only<4>{
-      \begin{textblock*}{8cm}(8cm, 6.5cm) % {block width} (coords)
-        \begin{center}
-          $D= \{8\}$
-        \end{center}
-      \end{textblock*}
-
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          \begin{algorithm}[H]
-            \caption*{\textbf{Algorithm} IEDS}
-            \scriptsize
-            \begin{algorithmic}[1]
-            \State $i \gets 1$
-            \State Remove all isolated paths from $G$
-            \While{$G$ is not empty}
-              \State $D \gets \emptyset$
-              \ForAll{components of $G$}
-                \CSTATE Pick any vertex $v$
-                \CSTATE $D \gets D \cup \{ v \}$
-                \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
-                  \State Pick $u$ at distance 3 from some vertex in $D$
-                  \State $D \gets D \cup \{ w \}$
-                \EndWhile
-                \ForAll{$u \in D$}
-                  \State Color $u$ with color $i$
-                \EndFor
-                \State $i \gets i + 1$
-                \ForAll{$u \in D$}
-                  \State Remove $N(u)$ from $G$
-                \EndFor
-                \State Remove all isolated paths from G
-              \EndFor
-            \EndWhile
-            \State Color all removed isolated paths using color $i$
-            \end{algorithmic}
-          \end{algorithm}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{center}
-            \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
-              \begin{figure}
-                \centering
-                \includegraphics[width=6cm]{../figures/algorithm1-slide-1.pdf}
-                \caption*{A simple, undirected graph $G$}
-              \end{figure}
-            \end{textblock*}
-          \end{center}
-        \end{column}
-      \end{columns}
-    }
-
-    \only<5>{
-      \begin{textblock*}{8cm}(8cm, 6.5cm) % {block width} (coords)
-        \begin{center}
-          $D= \{8\}$
-        \end{center}
-      \end{textblock*}
-
-      \begin{columns}
-        \begin{column}{0.5\textwidth}
-          \begin{algorithm}[H]
-            \caption*{\textbf{Algorithm} IEDS}
-            \scriptsize
-            \begin{algorithmic}[1]
-            \State $i \gets 1$
-            \State Remove all isolated paths from $G$
-            \While{$G$ is not empty}
-              \State $D \gets \emptyset$
-              \ForAll{components of $G$}
-                \State Pick any vertex $v$
-                \State $D \gets D \cup \{ v \}$
-                \CWhile{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
-                  \State Pick $u$ at distance 3 from some vertex in $D$
-                  \State $D \gets D \cup \{ w \}$
-                \EndWhile
-                \ForAll{$u \in D$}
-                  \State Color $u$ with color $i$
-                \EndFor
-                \State $i \gets i + 1$
-                \ForAll{$u \in D$}
-                  \State Remove $N(u)$ from $G$
-                \EndFor
-                \State Remove all isolated paths from G
-              \EndFor
-            \EndWhile
-            \State Color all removed isolated paths using color $i$
-            \end{algorithmic}
-          \end{algorithm}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-          \begin{center}
-            \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
-              \begin{figure}
-                \centering
-                \includegraphics[width=6cm]{../figures/algorithm1-slide-1.pdf}
-                \caption*{A simple, undirected graph $G$}
-              \end{figure}
-            \end{textblock*}
-          \end{center}
-        \end{column}
-      \end{columns}
-    }
+    \input{ieds}
 
   \end{frame}
 

@@ -1,0 +1,430 @@
+\begin{textblock*}{8cm}(8cm, 6cm) % {block width} (coords)
+  \begin{center}
+    \only<2-12>{
+      $D = \{2, 6, 8\}$
+    }
+  \end{center}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(8cm, 6.5cm) % {block width} (coords)
+  \begin{center}
+    \only<3-4>{
+      $V \setminus D = \{1, 3, 4, 5, 7\}$
+    }
+
+    \only<5-7>{
+      $V \setminus D = \{3, 4, 5, 7\}$
+    }
+
+    \only<8>{
+      $V \setminus D = \{4, 5, 7\}$
+    }
+
+    \only<9-12>{
+      $V \setminus D = \{\}$
+    }
+  \end{center}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(8cm,7cm) % {block width} (coords)
+  \begin{center}
+    \only<3-5>{
+      $v \in V \setminus D = 1$
+    }
+
+    \only<6-7>{
+      $v \in V \setminus D = 3$
+    }
+  \end{center}
+\end{textblock*}
+
+\begin{textblock*}{8cm}(8cm,7.5cm) % {block width} (coords)
+  \begin{center}
+    \only<4>{
+      $u \in D = 2, \{1, 2\} \in E$
+    }
+
+    \only<7>{
+      $u \in D = 2, \{2, 3\} \in E$
+    }
+  \end{center}
+\end{textblock*}
+
+\only<1>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm1.pdf}
+            \caption*{A simple, undirected graph $G = (V, E)$}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<2>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \CSTATE Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-1.pdf}
+            \caption*{A dominating set of $G$}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<3>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \CForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-2.pdf}
+            \caption*{Pick $v$ to be vertex 1}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<4>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\CSTATE Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-4.pdf}
+            \caption*{Pick $u$ to be vertex 2}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<5>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\CSTATE Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-5.pdf}
+            \caption*{Contract $\{1, 2\}$ towards 2}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<6>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \CForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-6.pdf}
+            \caption*{Pick $v$ to be vertex 3}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<7>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\CSTATE Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-7.pdf}
+            \caption*{Pick $u$ to be vertex 6}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<8>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\CSTATE Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-8.pdf}
+            \caption*{Contract $\{2, 3\}$ towards 2}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<9>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 3cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-9.pdf}
+            \caption*{$G$ after lines 2-4}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<10>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \CSTATE Find a proper vertex coloring of $G$
+        \State Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 3cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-slide-10.pdf}
+            \caption*{A proper vertex coloring}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<11>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \CSTATE Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-step4.pdf}
+            \caption*{Original $G$ colored}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}
+
+\only<12>{
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{algorithm}[H]
+        \caption*{\textbf{Algorithm} Dominating Set}
+        \footnotesize
+        \begin{algorithmic}[1]
+        \State Find a dominating set, $D$, of $G$
+        \ForAll{$v \in V \setminus D$}
+        	\State Pick a vertex $u \in D$ where $\{u, v\} \in E$
+        	\State Contract the edge $\{u,v\}$ towards $u$
+        \EndFor
+        \State Find a proper vertex coloring of $G$
+        \CSTATE Color the original $G$ with the found coloring
+        \end{algorithmic}
+      \end{algorithm}
+
+      \vfill
+
+      \begin{itemize}
+        \item[(1)] Produces a valid conflict-free coloring
+        \item[(2)] Tries to minimize the number of colored vertices
+      \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \begin{textblock*}{8cm}(8cm, 2cm) % {block width} (coords)
+          \begin{figure}
+            \centering
+            \includegraphics[width=6cm]{../figures/algorithm2-step4.pdf}
+            \caption*{Original $G$ colored}
+          \end{figure}
+        \end{textblock*}
+      \end{center}
+    \end{column}
+  \end{columns}
+}

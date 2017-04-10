@@ -10,6 +10,8 @@
 *.snm
 *.toc
 *.xdv
+*.run.xml
+*.bib
 paper/paper.pdf
 colorings
 presentation/presentation.pdf

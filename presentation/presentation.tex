@@ -9,6 +9,8 @@
 \usepackage[noend]{algpseudocode}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{calc}
+\usepackage[backend=bibtex,citestyle=authortitle]{biblatex}
+
 % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 % {eso-pic}
 
@@ -556,6 +558,8 @@
 
   \end{frame}
 
+  \subsection{Iterated Elimination of Distance-3-Sets}
+
   \begin{frame}
     \frametitle{Iterated Elimination of Distance-3-Sets}
 
@@ -564,6 +568,37 @@
   \end{frame}
 
   \section{CF Coloring for Planar Graphs}
+
+  \subsection{Bounds for Planar Graphs}
+  \begin{frame}
+    \frametitle{Bounds on Planar Graphs}
+
+    \only<3>{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/four.pdf}
+        \caption*{A vertex and conflict-free coloring, respectively}
+      \end{figure}
+    }
+
+    \begin{theorem}
+    Every loopless planar graph admits a proper \textbf{vertex coloring} with at most {\color{red} four} distinct colors.
+    \end{theorem}
+
+    \pause
+
+    \begin{theorem}
+    Every loopless planar graph admits a \textbf{conflict-free coloring} with at most {\color{red} three} distinct colors.
+    \end{theorem}
+
+  \end{frame}
+
+  \subsection{Dominating Set Algorithm}
+  \begin{frame}
+    \frametitle{Conflict-Free Coloring via Dominating Set}
+
+    \input{dominating}
+  \end{frame}
 
   \begin{frame}[standout]
     \centering

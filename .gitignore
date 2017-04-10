@@ -9,6 +9,7 @@
 *.nav
 *.snm
 *.toc
+*.xdv
 paper/paper.pdf
 colorings
 presentation/presentation.pdf

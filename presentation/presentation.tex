@@ -173,6 +173,8 @@
     \end{multicols}
   \end{frame}
 
+  \addtocontents{toc}{\protect\vspace{-14pt}}
+
   \section{Background}
 
   \subsection{Graph Theory}
@@ -182,42 +184,106 @@
 
 
 
-    \only<1-2>{
+    \only<1-3,6,9,11>{
       \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
         \centering
         \includegraphics[width=8cm]{../figures/example.pdf}
       \end{textblock*}
     }
 
-    \only<3> {
+    \only<4> {
       \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
         \centering
         \includegraphics[width=8cm]{../figures/example-neighborhoods-1.pdf}
       \end{textblock*}
     }
 
-    \only<4> {
+    \only<5> {
       \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
         \centering
         \includegraphics[width=8cm]{../figures/example-neighborhoods-2.pdf}
       \end{textblock*}
     }
 
-    \vspace{4cm}
+    \only<7> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-dist-1.pdf}
+      \end{textblock*}
+    }
+
+    \only<8,10> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-dist-2.pdf}
+      \end{textblock*}
+    }
+
+    \only<12> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-dom-1.pdf}
+      \end{textblock*}
+    }
+
+    \only<13> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-dom-2.pdf}
+      \end{textblock*}
+    }
+
+    \vspace{3.5cm}
 
     \vfill
 
-    \begin{itemize}
-      \item<1-4> A \textbf{graph} is the set of vertices \emph{V} and a set of edges \emph{E}.
-      \item<2-4> The \textbf{neighborhood} of a vertex $v$ is a set of all vertices adjacent to $v$ plus $v$ itself.
-      \only<1-2>{\item<3> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
-      \only<3>{\item<3> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
-      \only<4>{\item<4> Example: The neighborhood of vertex 5: $\{1, 2, 4, 5, 6\}$.}
-    \end{itemize}
+    \only<1-2>{
+      \begin{itemize}
+        \item<1-2> A \textbf{graph} is a set of vertices \emph{V} and a set of edges \emph{E}.
+        \pause
+        \item A \textbf{planar graph} is a graph that can be drawn on a plane such that no edges overlap.
+      \end{itemize}
+    }
+
+    \only<3-5>{
+      \begin{itemize}
+        \item<3-5> The \textbf{neighborhood} of a vertex $v$ is a set of all vertices adjacent to $v$ plus $v$ itself.
+        \only<3>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
+        \only<4>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
+        \only<5>{\item<5> Example: The neighborhood of vertex 5: $\{1, 2, 4, 5, 6\}$.}
+      \end{itemize}
+    }
+
+    \only<6-8>{
+      \begin{itemize}
+        \item The \textbf{distance} is the smallest number of edges needed to cross to get from vertex $v$ to vertex $u$.
+        \only<6>{\item<7> Example: Distance from vertex 1 to 3: \textbf{2}.}
+        \only<7>{\item<7> Example: Distance from vertex 1 to 6: \textbf{2}.}
+        \only<8>{\item<8> Example: Distance from vertex 3 to 4: \textbf{3}.}
+      \end{itemize}
+    }
+
+    \only<9-10>{
+      \begin{itemize}
+        \item A \textbf{distance-3-set} is a set containing all vertices that have exactly distance 3 from each other.
+        \only<9>{\item<7> Example: Distance from vertex 1 to 3: \textbf{2}.}
+        \only<10>{\item<10> Example: The only possible distance-3-set: $\{3, 4\}$.}
+      \end{itemize}
+    }
+
+    \only<11-13>{
+      \begin{itemize}
+        \item A \textbf{dominating set} is a subset of vertices $D$ of $V$ such that every vertex \emph{not} in $D$ is adjacent to at least one vertex in $D$.
+        \only<11>{\item<7> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
+        \only<12>{\item<12> Example: $\{2, 5\}$}
+        \only<13>{\item<13> Example: $\{2, 4\}$}
+      \end{itemize}
+    }
+
 
   \end{frame}
 
-  \subsection{Graph Coloring}
+  \subsection{Vertex Coloring}
 
   \begin{frame}
     \frametitle{Vertex Coloring}
@@ -232,6 +298,7 @@
 
     \begin{itemize}
       \item A proper \textbf{vertex coloring} of a graph $G$ assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
+      \pause
       \item The \textbf{chromatic number} of $G$ is the minimum number of colors needed to properly color $G$.
     \end{itemize}
   \end{frame}
@@ -295,6 +362,8 @@
     \end{columns}
 
   \end{frame}
+
+  \subsection{Conflict-Free Coloring}
 
   \begin{frame}
     \frametitle{Conflict-Free Coloring Examples}
@@ -376,11 +445,11 @@
 
   \end{frame}
 
-  \addtocontents{toc}{\protect\vspace{14pt}}
+  % \addtocontents{toc}{\protect\vspace{14pt}}
 
-  \section{Applications}
+  \subsection{Applications}
 
-  \subsection{Wireless Networks}
+  \addtocontents{toc}{\protect\vspace{21pt}}
 
   \begin{frame}
     \frametitle{Wireless Networks}
@@ -426,9 +495,9 @@
       \item This leads us to our goal: Assign frequencies such that:
       \pause
       \begin{itemize}
-        \item[(1)] Every client is served by a base-station with a unique frequency
+        \item[(1)] Every client is served by a base-station with a unique frequency.
         \pause
-        \item[(2)] Minimize the number of frequencies used
+        \item[(2)] Minimize the number of frequencies used.
       \end{itemize}
     \end{itemize}
 
@@ -438,21 +507,24 @@
     \begin{figure}[h]
       \centering
       \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers.pdf}
-      \caption{Vertex coloring and conflict-free coloring of cellular towers, respectively}
+      \caption*{Vertex coloring and conflict-free coloring of cellular towers, respectively}
     \end{figure}
 
   \end{frame}
 
-  \subsection{RFID Networks}
+  % \subsection{RFID Networks}
+  %
+  % \begin{frame}
+  %   \frametitle{RFID Networks}
+  % \end{frame}
 
-  \begin{frame}
-    \frametitle{RFID Networks}
-  \end{frame}
+  %
 
   \addtocontents{toc}{\newpage}
 
+
   \section{CF Coloring for General Graphs}
-  \subsection{Guaranteeing CF k-Colorability}
+  \subsection{Guaranteeing k-Colorability}
   \begin{frame}
     \frametitle{Guaranteeing Conflict-Free k-Colorability}
 
@@ -499,7 +571,7 @@
         \begin{figure}
          \centering
          \includegraphics[width=6cm]{../figures/criterion.pdf}
-         \caption{A simple, undirected graph $G$}
+         \caption*{A simple, undirected graph $G$}
        \end{figure}
       }
 
@@ -511,7 +583,7 @@
               \begin{figure}
                  \centering
                  \includegraphics[width=6cm]{../figures/criterion.pdf}
-                 \caption{A simple, undirected graph $G$}
+                 \caption*{A simple, undirected graph $G$}
                \end{figure}
             \end{center}
           \end{column}
@@ -520,7 +592,7 @@
               \begin{figure}
                 \centering
                 \includegraphics[width=6cm]{../figures/bad-criterion.pdf}
-                \caption{Graphs $K_{3}$ and $K_{4}^{-3}$}
+                \caption*{Graphs $K_{3}$ and $K_{4}^{-3}$}
               \end{figure}
             \end{center}
           \end{column}
@@ -535,7 +607,7 @@
               \begin{figure}
                  \centering
                  \includegraphics[width=6cm]{../figures/criterion-minor.pdf}
-                 \caption{A simple, undirected graph $G$}
+                 \caption*{A simple, undirected graph $G$}
                \end{figure}
             \end{center}
           \end{column}
@@ -544,7 +616,7 @@
               \begin{figure}
                 \centering
                 \includegraphics[width=6cm]{../figures/bad-criterion.pdf}
-                \caption{Graphs $K_{3}$ and $K_{4}^{-3}$}
+                \caption*{Graphs $K_{3}$ and $K_{4}^{-3}$}
               \end{figure}
             \end{center}
           \end{column}
@@ -558,7 +630,7 @@
 
   \end{frame}
 
-  \subsection{Iterated Elimination of Distance-3-Sets}
+  \subsection{Distance-3-Sets Algorithm}
 
   \begin{frame}
     \frametitle{Iterated Elimination of Distance-3-Sets}
@@ -567,7 +639,9 @@
 
   \end{frame}
 
-  \section{CF Coloring for Planar Graphs}
+  \addtocontents{toc}{\protect\vspace{7pt}}
+
+  \section{Coloring for Planar Graphs}
 
   \subsection{Bounds for Planar Graphs}
   \begin{frame}

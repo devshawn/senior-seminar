@@ -19,12 +19,119 @@
 \newcommand{\exampleheight}{1.9cm}
 \newcommand{\examplewidth}{16cm}
 
+% \makeatletter
+% \newcommand{\algcolor}[2]{%
+%   \hskip-\ALG@thistlm\colorbox{#1}{\raisebox{0pt}[0.1cm][0cm]{\parbox{\dimexpr\linewidth-2\fboxsep}{\hskip\ALG@thistlm\relax #2}}}%
+% }
+% \newcommand{\algemph}[1]{\algcolor{Yellow}{#1}}
+% \makeatother
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
 \makeatletter
-\newcommand{\algcolor}[2]{%
-  \hskip-\ALG@thistlm\colorbox{#1}{\raisebox{0pt}[0.1cm][0cm]{\parbox{\dimexpr\linewidth-2\fboxsep}{\hskip\ALG@thistlm\relax #2}}}%
+% code borrowed from Andrew Stacey; See
+% http://tex.stackexchange.com/a/50054/3954
+\tikzset{%
+  remember picture with id/.style={%
+    remember picture,
+    overlay,
+    save picture id=#1,
+  },
+  save picture id/.code={%
+    \edef\pgf@temp{#1}%
+    \immediate\write\pgfutil@auxout{%
+      \noexpand\savepointas{\pgf@temp}{\pgfpictureid}}%
+  },
+  if picture id/.code args={#1#2#3}{%
+    \@ifundefined{save@pt@#1}{%
+      \pgfkeysalso{#3}%
+    }{
+      \pgfkeysalso{#2}%
+    }
+  }
 }
-\newcommand{\algemph}[1]{\algcolor{Yellow}{#1}}
+
+\def\savepointas#1#2{%
+  \expandafter\gdef\csname save@pt@#1\endcsname{#2}%
+}
+
+\def\tmk@labeldef#1,#2\@nil{%
+  \def\tmk@label{#1}%
+  \def\tmk@def{#2}%
+}
+
+\tikzdeclarecoordinatesystem{pic}{%
+  \pgfutil@in@,{#1}%
+  \ifpgfutil@in@%
+    \tmk@labeldef#1\@nil
+  \else
+    \tmk@labeldef#1,(0pt,0pt)\@nil
+  \fi
+  \@ifundefined{save@pt@\tmk@label}{%
+    \tikz@scan@one@point\pgfutil@firstofone\tmk@def
+  }{%
+  \pgfsys@getposition{\csname save@pt@\tmk@label\endcsname}\save@orig@pic%
+  \pgfsys@getposition{\pgfpictureid}\save@this@pic%
+  \pgf@process{\pgfpointorigin\save@this@pic}%
+  \pgf@xa=\pgf@x
+  \pgf@ya=\pgf@y
+  \pgf@process{\pgfpointorigin\save@orig@pic}%
+  \advance\pgf@x by -\pgf@xa
+  \advance\pgf@y by -\pgf@ya
+  }%
+}
+
 \makeatother
+% end of Andrew's code
+
+% main command to draw the colored background
+\newcounter{mymark}
+\newcommand\ColorLine{%
+  \stepcounter{mymark}%
+  \tikz[remember picture with id=mark-\themymark,overlay] {;}%
+  \begin{tikzpicture}[remember picture,overlay]%
+    \filldraw[Yellow]%
+   let \p1=(pic cs:mark-\themymark),
+   \p2=(current page.east)  in
+   ([xshift=-0.3em,yshift=-0.7ex]0,\y1)  rectangle ++([xshift=-8.26cm]\x2,\baselineskip);
+  \end{tikzpicture}%
+}%
+
+% colored loops and declarations
+\makeatletter
+\algnewcommand\CREQUIRE{\item[\ColorLine\algorithmicrequire]}%
+\algnewcommand\CENSURE{\item[\ColorLine\algorithmicensure]}%
+\algnewcommand\CSTATE{\State\ColorLine}%
+\algnewcommand\CSTATEx{\Statex\ColorLine}%
+\algnewcommand\CCOMMENT{\Comment\ColorLine}%
+
+% \algdef{SE}[WHILE]{CWhile}{EndWhile}%
+%    [2][default]{\ColorLine\algorithmicwhile\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+%    {\algorithmicend\ \algorithmicwhile}%
+ \algdef{SE}[WHILE]{CWhile}{EndWhile}[1]{\ColorLine\algorithmicwhile\ #1\ \algorithmicdo}{\algorithmicend\ \algorithmicwhile}%
+
+\algdef{SE}[FOR]{CFOR}{ENDFOR}%
+   [2][default]{\ColorLine\algorithmicfor\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+   {\algorithmicend\ \algorithmicfor}%
+\algdef{S}[FOR]{CFORALL}%
+   [2][default]{\ColorLine\algorithmicforall\ #2\ \algorithmicdo\ALG@compatcomm{#1}}%
+\algdef{SE}[LOOP]{CLOOP}{ENDLOOP}%
+   [1][default]{\ColorLine\algorithmicloop\ALG@compatcomm{#1}}%
+   {\algorithmicend\ \algorithmicloop}%
+\algdef{SE}[REPEAT]{CREPEAT}{UNTIL}%
+   [1][default]{\ColorLine\algorithmicrepeat\ALG@compatcomm{#1}}%
+   [1]{\algorithmicuntil\ #1}%
+\algdef{SE}[IF]{CIF}{ENDIF}%
+   [2][default]{\ColorLine\algorithmicif\ #2\ \algorithmicthen\ALG@compatcomm{#1}}%
+   {\algorithmicend\ \algorithmicif}%
+\algdef{C}[IF]{IF}{CELSIF}%
+   [2][default]{\ColorLine\algorithmicelse\ \algorithmicif\ #2\ \algorithmicthen\ALG@compatcomm{#1}}%
+\algdef{Ce}[ELSE]{IF}{CELSE}{ENDIF}%
+   [1][default]{\ColorLine\algorithmicelse\ALG@compatcomm{#1}}%
+\makeatother
+\algtext*{EndWhile}%
+
 
 \usetheme[numbering=counter, progressbar=frametitle, sectionpage=none]{metropolis}
 \setbeamercolor{background canvas}{bg=white}
@@ -507,8 +614,8 @@
             \caption*{\textbf{Algorithm} IEDS}
             \scriptsize
             \begin{algorithmic}[1]
-            \State \algemph{$i \gets 1$}
-            \State \algemph{Remove all isolated paths from $G$}
+            \CSTATE $i \gets 1$
+            \CSTATE Remove all isolated paths from $G$
             \While{$G$ is not empty}
               \State $D \gets \emptyset$
               \ForAll{components of $G$}
@@ -562,7 +669,7 @@
             \State $i \gets 1$
             \State Remove all isolated paths from $G$
             \While{$G$ is not empty}
-              \State \algemph{$D \gets \emptyset$}
+              \CSTATE $D \gets \emptyset$
               \ForAll{components of $G$}
                 \State Pick any vertex $v$
                 \State $D \gets D \cup \{ v \}$
@@ -616,8 +723,8 @@
             \While{$G$ is not empty}
               \State $D \gets \emptyset$
               \ForAll{components of $G$}
-                \State \algemph{Pick any vertex $v$}
-                \State \algemph{$D \gets D \cup \{ v \}$}
+                \CSTATE Pick any vertex $v$
+                \CSTATE $D \gets D \cup \{ v \}$
                 \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
                   \State Pick $u$ at distance 3 from some vertex in $D$
                   \State $D \gets D \cup \{ w \}$
@@ -668,9 +775,9 @@
             \While{$G$ is not empty}
               \State $D \gets \emptyset$
               \ForAll{components of $G$}
-                \State Pick any vertex $v$}
+                \State Pick any vertex $v$
                 \State $D \gets D \cup \{ v \}$
-                \While{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
+                \CWhile{$\exists u$ at distance $\geq 3$ $\forall v \in D$}
                   \State Pick $u$ at distance 3 from some vertex in $D$
                   \State $D \gets D \cup \{ w \}$
                 \EndWhile

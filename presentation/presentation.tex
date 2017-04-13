@@ -10,6 +10,7 @@
 \usepackage[absolute,overlay]{textpos}
 \usepackage{calc}
 \usepackage[backend=bibtex,citestyle=authortitle]{biblatex}
+\usepackage[no-math]{fontspec}
 
 % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 % {eso-pic}
@@ -100,6 +101,7 @@
   \end{tikzpicture}%
 }%
 
+
 % colored loops and declarations
 \makeatletter
 \algnewcommand\CREQUIRE{\item[\ColorLine\algorithmicrequire]}%
@@ -145,6 +147,11 @@
 \setbeamercolor{background canvas}{bg=white}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
 
+\setsansfont[ItalicFont={Fira Sans Light Italic},%
+             BoldFont={Fira Sans Bold},%
+             BoldItalicFont={Fira Sans Italic}]%
+            {Fira Sans Light}
+
 \title{Conflict-Free Vertex Coloring of Planar Graphs}
 \date{April 15, 2017}
 \author{Shawn Seymour}
@@ -155,7 +162,7 @@
   \begin{frame}
     \begin{figure}[h]
       \centering
-      \includegraphics[width=14cm]{../figures/map-no-colors-3.pdf}
+      \includegraphics[width=14cm]{../figures/map-no-colors-1.pdf}
     \end{figure}
   \end{frame}
 
@@ -239,15 +246,17 @@
 
     \only<1-2>{
       \begin{itemize}
-        \item<1-2> A \textbf{graph} is a set of vertices \emph{V} and a set of edges \emph{E}.
+        \item<1-2> \textbf{Simple graph}: undirected graph with no loops.
         \pause
-        \item A \textbf{planar graph} is a graph that can be drawn on a plane such that no edges overlap.
+        \vfill
+        \item \textbf{Planar graph}: no edges overlap.
       \end{itemize}
     }
 
     \only<3-5>{
       \begin{itemize}
-        \item<3-5> The \textbf{neighborhood} of a vertex $v$ is a set of all vertices adjacent to $v$ plus $v$ itself.
+        \item<3-5> \textbf{Neighborhood} of a vertex $v$: a set of all vertices adjacent to $v$ plus $v$.
+        \vfill
         \only<3>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<4>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<5>{\item<5> Example: The neighborhood of vertex 5: $\{1, 2, 4, 5, 6\}$.}
@@ -256,24 +265,28 @@
 
     \only<6-8>{
       \begin{itemize}
-        \item The \textbf{distance} is the smallest number of edges needed to cross to get from vertex $v$ to vertex $u$.
-        \only<6>{\item<7> Example: Distance from vertex 1 to 3: \textbf{2}.}
-        \only<7>{\item<7> Example: Distance from vertex 1 to 6: \textbf{2}.}
-        \only<8>{\item<8> Example: Distance from vertex 3 to 4: \textbf{3}.}
+        \item \textbf{Distance}: smallest number of edges to get from one vertex to another.
+        \vfill
+        \only<6>{\item<7> Example: distance from vertex 1 to 3: \textbf{2}.}
+        \only<7>{\item<7> Example: distance from vertex 1 to 6: \textbf{2}.}
+        \only<8>{\item<8> Example: distance from vertex 3 to 4: \textbf{3}.}
       \end{itemize}
     }
 
     \only<9-10>{
       \begin{itemize}
-        \item A \textbf{distance-3-set} is a set containing all vertices that have exactly distance 3 from each other.
+        \item \textbf{Distance-3-set}: contains all vertices with exactly distance 3 from each other.
+        \vfill
         \only<9>{\item<7> Example: Distance from vertex 1 to 3: \textbf{2}.}
         \only<10>{\item<10> Example: The only possible distance-3-set: $\{3, 4\}$.}
       \end{itemize}
     }
 
     \only<11-13>{
+    \vspace{0.55cm}
       \begin{itemize}
-        \item A \textbf{dominating set} is a subset of vertices $D$ of $V$ such that every vertex \emph{not} in $D$ is adjacent to at least one vertex in $D$.
+        \item \textbf{Dominating set}: a subset of vertices $D$ of $V$ such that every vertex \emph{not} in $D$ is adjacent to at least one vertex in $D$.
+        \vfill
         \only<11>{\item<7> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<12>{\item<12> Example: $\{2, 5\}$}
         \only<13>{\item<13> Example: $\{2, 4\}$}
@@ -293,12 +306,13 @@
       \includegraphics[width=8cm]{../figures/example-vcp.pdf}
     \end{textblock*}
 
-    \vspace{4cm}
+    \vspace{4.5cm}
     \vfill
 
     \begin{itemize}
-      \item A proper \textbf{vertex coloring} of a graph $G$ assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
+      \item A \textbf{proper vertex coloring} of a graph $G$ assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
       \pause
+      \vfill
       \item The \textbf{chromatic number} of $G$ is the minimum number of colors needed to properly color $G$.
     \end{itemize}
   \end{frame}
@@ -311,12 +325,14 @@
       \includegraphics[width=8cm]{../figures/example-cfcp.pdf}
     \end{textblock*}
 
-    \vspace{4cm}
+    \vspace{4.5cm}
     \vfill
 
     \begin{itemize}
-      \item<1-2> A \textbf{conflict-free coloring} of a graph $G$ assigns colors to \emph{some} vertices such that there is a uniquely colored vertex within the neighborhood of every vertex.
-      \item<2> Every proper vertex coloring of $G$ is also a conflict-free coloring of $G$ as every vertex $v$ would be a unique color itself in its neighborhood.
+      \item<1-2> A \textbf{conflict-free coloring} of a graph $G$ assigns colors to \emph{some} vertices such that the neighborhood of every vertex contains at least one unique color.
+      \vfill
+      \pause
+      \item<2> Proper vertex colorings are also conflict-free colorings.
     \end{itemize}
   \end{frame}
 
@@ -523,7 +539,7 @@
   \addtocontents{toc}{\newpage}
 
 
-  \section{CF Coloring for General Graphs}
+  \section{Coloring for General Graphs}
   \subsection{Guaranteeing k-Colorability}
   \begin{frame}
     \frametitle{Guaranteeing Conflict-Free k-Colorability}

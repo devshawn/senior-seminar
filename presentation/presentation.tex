@@ -394,68 +394,70 @@
 
     \begin{columns}
       \begin{column}{0.33333\textwidth}
-        \only<2>{
-          \begin{figure}[h]
+        \centering
+        \vspace{4.5cm}
+        Isolated vertex
+        \only<2-7>{
+          \begin{textblock*}{\examplewidth/3}(0.15cm,3.5cm) % {block width} (coords)
             \centering
             \includegraphics[width=3cm]{../figures/examples-1-incorrect-1.pdf}
-          \end{figure}
+          \end{textblock*}
         }
 
         \only<3-7>{
-          \begin{figure}[h]
+          \begin{textblock*}{\examplewidth/3}(0.15cm,6.7cm) % {block width} (coords)
             \centering
             \includegraphics[width=3cm]{../figures/examples-1-incorrect-1-corrected.pdf}
-          \end{figure}
+          \end{textblock*}
         }
 
-        \centering
-        Vertex 1 does not have a unique color in its neighborhood.
       \end{column}
 
       \pause
       \pause
 
       \begin{column}{0.33333\textwidth}
+        \centering
+        \vspace{4.5cm}
+        Triangle
 
-        \only<4>{
-        \begin{figure}[h]
-          \centering
-          \includegraphics[width=3cm]{../figures/examples-1-incorrect-2.pdf}
-        \end{figure}
+        \only<4-7>{
+          \begin{textblock*}{\examplewidth/3}(\examplewidth/3,3.5cm) % {block width} (coords)
+            \centering
+            \includegraphics[width=3cm]{../figures/examples-1-incorrect-2.pdf}
+          \end{textblock*}
         }
 
         \only<5-7>{
-        \begin{figure}[h]
-          \centering
-          \includegraphics[width=3cm]{../figures/examples-1-incorrect-2-corrected.pdf}
-        \end{figure}
+          \begin{textblock*}{\examplewidth/3}(\examplewidth/3,6.7cm) % {block width} (coords)
+            \centering
+            \includegraphics[width=3cm]{../figures/examples-1-incorrect-2-corrected.pdf}
+          \end{textblock*}
         }
 
-        \centering
-        Vertices $\{2, 3, 4\}$ do not have a unique color in their neighborhoods.
       \end{column}
 
       \pause
       \pause
 
       \begin{column}{0.33333\textwidth}
+        \centering
+        \vspace{4.5cm}
+        Missing unique
 
-        \only<6>{
-        \begin{figure}[h]
-          \centering
-          \includegraphics[width=3cm]{../figures/examples-1-incorrect-3.pdf}
-        \end{figure}
+        \only<6-7>{
+          \begin{textblock*}{\examplewidth/3}(10.57cm,3.5cm) % {block width} (coords)
+            \centering
+            \includegraphics[width=3cm]{../figures/examples-1-incorrect-3.pdf}
+          \end{textblock*}
         }
 
         \only<7>{
-        \begin{figure}[h]
-          \centering
-          \includegraphics[width=3cm]{../figures/examples-1-incorrect-3-corrected.pdf}
-        \end{figure}
+          \begin{textblock*}{\examplewidth/3}(10.57cm,6.7cm) % {block width} (coords)
+            \centering
+            \includegraphics[width=3cm]{../figures/examples-1-incorrect-3-corrected.pdf}
+          \end{textblock*}
         }
-
-        \centering
-        Vertex 3 does not have a unique color in its neighborhood.
       \end{column}
     \end{columns}
 
@@ -468,27 +470,25 @@
   \addtocontents{toc}{\protect\vspace{21pt}}
 
   \begin{frame}
-    \frametitle{Wireless Networks}
+    \frametitle{Applications}
 
     \begin{itemize}
-      \item \textbf{Wireless networks} such as cellular networks, television broadcasts, and satellite communication systems can all benefit from conflict-free coloring.
+      \item \textbf{Applications}: wireless networks, satellite communication systems, RFID networks.
+
+      \pause
+      \vfill
 
       \begin{figure}[h]
         \centering
         \includegraphics[width=12cm]{../figures/towers-slides.pdf}
       \end{figure}
 
+      \vfill
+
+      \item \textbf{Cellular networks}: consist of base-stations and clients.
       \pause
+      \item The problem: \textbf{frequency assignment}.
 
-      \item A \textbf{cellular network} is a heterogeneous network with two types of nodes.
-
-      \pause
-
-      \begin{itemize}
-        \item Base-stations act as servers and are interconnected by an external backbone network.
-        \pause
-        \item Clients connect to base-stations via radio links. They constantly search for base-stations with strong reception.
-      \end{itemize}
     \end{itemize}
 
   \end{frame}
@@ -496,19 +496,25 @@
   \begin{frame}
     \frametitle{Cellular Networks}
 
-    \begin{itemize}
-      \item The problem when designing cellular networks: \textbf{frequency assignment}.
-      \begin{itemize}
-        \item Imagine two nearby base-stations having the same frequency.
-        \item A client in range of both base-stations would receive mutual interference.
-      \end{itemize}
-    \end{itemize}
+    \only<1>{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers-slides-2.pdf}
+      \end{figure}
+    }
+
+    \only<2->{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers-slides-3.pdf}
+      \end{figure}
+    }
 
     \pause
-    \vspace{-0.2cm}
+    \pause
 
     \begin{itemize}
-      \item This leads us to our goal: Assign frequencies such that:
+      \item Our goal is to assign frequencies such that:
       \pause
       \begin{itemize}
         \item[(1)] Every client is served by a base-station with a unique frequency.
@@ -517,14 +523,22 @@
       \end{itemize}
     \end{itemize}
 
-    \pause
-    \vfill
+  \end{frame}
+
+  \begin{frame}
+    \frametitle{Cellular Networks}
 
     \begin{figure}[h]
       \centering
-      \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers.pdf}
+      \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/towers-graph.pdf}
+    \end{figure}
+
+    \begin{figure}[h]
+      \centering
+      \includegraphics[width=10cm,trim=4 4 4 4,clip]{../figures/towers.pdf}
       \caption*{Vertex coloring and conflict-free coloring of cellular towers, respectively}
     \end{figure}
+
 
   \end{frame}
 
@@ -544,29 +558,48 @@
   \begin{frame}
     \frametitle{Guaranteeing Conflict-Free k-Colorability}
 
-    It is wasteful to spend time coloring a graph that cannot be conflict-free colored within a certain amount of colors ($k$). Thus researchers came up with a criterion to guarantee a graph can be colored with $k$ colors.
+    We want to guarantee a graph can be colored with $k$ colors.
 
     \pause
+
+    \only<1-2>{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion-1.pdf}
+        \caption*{Graphs $K_3$ and $K_4$, respectively}
+      \end{figure}
+    }
+
+    \only<3>{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion-2.pdf}
+        \caption*{Graphs $K_3$ and $K_4$, respectively}
+      \end{figure}
+    }
+
+    \only<4>{
+      \begin{figure}[h]
+        \centering
+        \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion.pdf}
+        \caption*{Graphs $K_3$ and $K_4$, respectively}
+      \end{figure}
+    }
+
     \vfill
-
-    A \textbf{complete graph} is a graph where every pair of distinct vertices is connected by an edge.
-
-    \pause
 
     \begin{itemize}
-      \item $K_n$: A complete graph of $n$ vertices.
+      \item \textbf{Complete graph}: every pair of distinct vertices is connected by an edge.
+      \vfill
       \pause
-      \item $K_n^{-3}$: A complete graph of $n$ vertices with any three edges forming a triangle removed.
+      \item \textbf{Tattered graph}: complete graph with a triangle removed.
     \end{itemize}
 
-    \pause
-    \vfill
-
-    \begin{theorem}
-    Let $G$ be a graph and $k \geq 1$. If $G$ has neither $K_{k+2}$ nor $K_{k+3}^{-3}$ as a minor, $G$ has a conflict-free coloring that can be found in polynomial time.
-    \end{theorem}
-
   \end{frame}
+
+  % \begin{theorem}
+  % Let $G$ be a graph and $k \geq 1$. If $G$ has neither $K_{k+2}$ nor $K_{k+3}^{-3}$ as a minor, $G$ has a conflict-free coloring that can be found in polynomial time.
+  % \end{theorem}
 
   \begin{frame}
     \frametitle{Guaranteeing Conflict-Free k-Colorability}
@@ -641,7 +674,7 @@
     \end{textblock*}
 
     \begin{textblock*}{14cm}(1cm, 7.1cm) % {block width} (coords)
-      To be conflict-free colored with 1 color, graph $G$ cannot contain $K_3$ or $K_4^{-3}$ as a minor. A graph is a \textbf{minor} if it can be formed by deleting and/or contracting edges from its parent graph. \only<3>{$G$ contains both $K_3$ and $K_4^{-3}$ as a minor and thus {\color{red}\textbf{cannot}} be conflict-free colored with 1 color.}
+      A graph is a \textbf{minor} if it can be formed by deleting and/or contracting edges from its parent graph. To be conflict-free colored with 1 color, graph $G$ cannot contain $K_3$ or $K_4^{-3}$ as a minor.  \only<3>{$G$ contains both $K_3$ and $K_4^{-3}$ as a minor and thus {\color{red}\textbf{cannot}} be conflict-free colored with 1 color.}
     \end{textblock*}
 
   \end{frame}

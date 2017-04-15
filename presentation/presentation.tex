@@ -246,16 +246,16 @@
 
     \only<1-2>{
       \begin{itemize}
-        \item<1-2> \textbf{Simple graph}: undirected graph with no loops.
+        \item \textbf{Simple graph}: undirected graph with no loops.
         \pause
         \vfill
-        \item \textbf{Planar graph}: no edges overlap.
+        \item \textbf{Planar graph}: no edges cross.
       \end{itemize}
     }
 
     \only<3-5>{
       \begin{itemize}
-        \item<3-5> \textbf{Neighborhood} of a vertex $v$: a set of all vertices adjacent to $v$ plus $v$.
+        \item<3-5> \textbf{Neighborhood} of a vertex: a set of all adjacent vertices and the vertex itself.
         \vfill
         \only<3>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<4>{\item<4> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
@@ -285,7 +285,7 @@
     \only<11-13>{
     \vspace{0.55cm}
       \begin{itemize}
-        \item \textbf{Dominating set}: a subset of vertices $D$ of $V$ such that every vertex \emph{not} in $D$ is adjacent to at least one vertex in $D$.
+        \item \textbf{Dominating set}: all vertices outside of the set must have distance 1 to some vertex within the set.
         \vfill
         \only<11>{\item<7> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<12>{\item<12> Example: $\{2, 5\}$}
@@ -310,10 +310,10 @@
     \vfill
 
     \begin{itemize}
-      \item A \textbf{proper vertex coloring} of a graph $G$ assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
+      \item A \textbf{proper vertex coloring} assigns colors to \emph{every} vertex such that no two adjacent vertices share the same color.
       \pause
       \vfill
-      \item The \textbf{chromatic number} of $G$ is the minimum number of colors needed to properly color $G$.
+      \item The \textbf{chromatic number} is the minimum number of colors needed to properly color a graph.
     \end{itemize}
   \end{frame}
 
@@ -329,7 +329,7 @@
     \vfill
 
     \begin{itemize}
-      \item<1-2> A \textbf{conflict-free coloring} of a graph $G$ assigns colors to \emph{some} vertices such that the neighborhood of every vertex contains at least one unique color.
+      \item<1-2> A \textbf{conflict-free coloring} assigns colors to \emph{some} vertices such that the neighborhood of every vertex contains at least one uniquely colored vertex.
       \vfill
       \pause
       \item<2> Proper vertex colorings are also conflict-free colorings.
@@ -351,29 +351,45 @@
 
     \vspace{3cm}
 
-    \begin{center}
-      Every vertex $v$ has at least one unique color within its neighborhood.
-    \end{center}
-
     \pause
 
     \begin{columns}
       \begin{column}{0.5\textwidth}
-        \begin{itemize}[leftmargin=1.4cm]
-          \item[$v$ = 1:] $\{1: none,\ 2: none,\ 5: \textbf{red}\}$
-          \item[$v$ = 2:] $\{1: none,\ 2: none,\ 3: \textbf{blue},$ \newline $\quad 5: red,\ 6: none\}$
-          \item[$v$ = 3:] $\{2: none,\ 3: \textbf{blue}\}$
-        \end{itemize}
+        \begin{multicols}{2}
+          \begin{itemize}[leftmargin=1.4cm]
+            \item[1:] \textbf{red}
+            \pause
+            \item[2:] \textbf{blue}
+            \pause
+            \item[3:] \textbf{blue}
+            \pause
+            \item[4:] \textbf{red}
+            \pause
+            \item[5:] \textbf{red}
+            \pause
+            \item[6:] \textbf{red}
+          \end{itemize}
+        \end{multicols}
       \end{column}
 
       \pause
 
       \begin{column}{0.5\textwidth}
-        \begin{itemize}[leftmargin=1.4cm]
-          \item[$v$ = 1:] $\{1: \textbf{blue},\ 2: red,\ 5: yellow\}$
-          \item[$v$ = 2:] $\{1: blue,\ 2: \textbf{red},\ 3: blue,$ \newline $\quad 5: yellow,\ 6: blue\}$
-          \item[$v$ = 3:] $\{2: red,\ 3: \textbf{blue}\}$
-        \end{itemize}
+        \begin{multicols}{2}
+          \begin{itemize}[leftmargin=1.4cm]
+            \item[1:] \textbf{blue}
+            \pause
+            \item[2:] \textbf{red}
+            \pause
+            \item[3:] \textbf{blue}
+            \pause
+            \item[4:] \textbf{red}
+            \pause
+            \item[5:] \textbf{yellow}
+            \pause
+            \item[6:] \textbf{blue}
+          \end{itemize}
+        \end{multicols}
       \end{column}
     \end{columns}
 
@@ -566,7 +582,7 @@
       \begin{figure}[h]
         \centering
         \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion-1.pdf}
-        \caption*{Graphs $K_3$ and $K_4$, respectively}
+        \caption*{Complete 3 vertex and complete 4 vertex graphs}
       \end{figure}
     }
 
@@ -574,7 +590,7 @@
       \begin{figure}[h]
         \centering
         \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion-2.pdf}
-        \caption*{Graphs $K_3$ and $K_4$, respectively}
+        \caption*{Complete 3 vertex and complete 4 vertex graphs}
       \end{figure}
     }
 
@@ -582,7 +598,7 @@
       \begin{figure}[h]
         \centering
         \includegraphics[width=8cm,trim=4 4 4 4,clip]{../figures/bad-criterion.pdf}
-        \caption*{Graphs $K_3$ and $K_4$, respectively}
+        \caption*{Complete 3 vertex and tattered 4 vertex graphs}
       \end{figure}
     }
 
@@ -611,7 +627,7 @@
 
 
     \begin{textblock*}{14cm}(1cm, 1.6cm) % {block width} (coords)
-      Let's demonstrate meeting this criterion on a graph for the simplest case, $k=1$:
+      Let's demonstrate meeting this criterion on a graph for the simplest case, 1 color.
     \end{textblock*}
 
 
@@ -620,7 +636,7 @@
         \begin{figure}
          \centering
          \includegraphics[width=6cm]{../figures/criterion.pdf}
-         \caption*{A simple, undirected graph $G$}
+         \caption*{A simple graph}
        \end{figure}
       }
 
@@ -632,7 +648,7 @@
               \begin{figure}
                  \centering
                  \includegraphics[width=6cm]{../figures/criterion.pdf}
-                 \caption*{A simple, undirected graph $G$}
+                 \caption*{A simple graph}
                \end{figure}
             \end{center}
           \end{column}
@@ -641,7 +657,7 @@
               \begin{figure}
                 \centering
                 \includegraphics[width=6cm]{../figures/bad-criterion.pdf}
-                \caption*{Graphs $K_{3}$ and $K_{4}^{-3}$}
+                \caption*{Complete 3 vertex and tattered 4 vertex graphs}
               \end{figure}
             \end{center}
           \end{column}
@@ -656,7 +672,7 @@
               \begin{figure}
                  \centering
                  \includegraphics[width=6cm]{../figures/criterion-minor.pdf}
-                 \caption*{A simple, undirected graph $G$}
+                 \caption*{A simple graph}
                \end{figure}
             \end{center}
           \end{column}
@@ -665,16 +681,24 @@
               \begin{figure}
                 \centering
                 \includegraphics[width=6cm]{../figures/bad-criterion.pdf}
-                \caption*{Graphs $K_{3}$ and $K_{4}^{-3}$}
+                \caption*{Complete 3 vertex and tattered 4 vertex graphs}
               \end{figure}
             \end{center}
           \end{column}
         \end{columns}
       }
+
+      \only<4>{
+        \begin{textblock*}{14cm}(1cm, 3.5cm) % {block width} (coords)
+          \begin{theorem}
+          A graph cannot be conflict-free colored with $k$ colors if it contains a complete graph of $k+2$ vertices or a tattered graph of $k+3$ vertices.
+          \end{theorem}
+        \end{textblock*}
+      }
     \end{textblock*}
 
     \begin{textblock*}{14cm}(1cm, 7.1cm) % {block width} (coords)
-      A graph is a \textbf{minor} if it can be formed by deleting and/or contracting edges from its parent graph. To be conflict-free colored with 1 color, graph $G$ cannot contain $K_3$ or $K_4^{-3}$ as a minor.  \only<3>{$G$ contains both $K_3$ and $K_4^{-3}$ as a minor and thus {\color{red}\textbf{cannot}} be conflict-free colored with 1 color.}
+      A graph is a \textbf{minor} if it can be formed by deleting and/or contracting edges from its parent graph.  \only<3->{$G$ contains both graphs as a minor and thus {\color{red}\textbf{cannot}} be conflict-free colored with 1 color.}
     \end{textblock*}
 
   \end{frame}

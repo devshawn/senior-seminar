@@ -219,10 +219,17 @@
       \end{textblock*}
     }
 
-    \only<8,10> {
+    \only<8> {
       \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
         \centering
         \includegraphics[width=8cm]{../figures/example-dist-2.pdf}
+      \end{textblock*}
+    }
+
+    \only<10> {
+      \begin{textblock*}{\examplewidth}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=8cm]{../figures/example-d3s.pdf}
       \end{textblock*}
     }
 
@@ -285,7 +292,7 @@
     \only<11-13>{
     \vspace{0.55cm}
       \begin{itemize}
-        \item \textbf{Dominating set}: all vertices outside of the set must have distance 1 to some vertex within the set.
+        \item \textbf{Dominating set}: all vertices not in the set must have distance 1 to some vertex within the set.
         \vfill
         \only<11>{\item<7> Example: The neighborhood of vertex 1: $\{1, 2, 5\}$.}
         \only<12>{\item<12> Example: $\{2, 5\}$}
@@ -339,15 +346,107 @@
   \begin{frame}
     \frametitle{Conflict-Free Coloring}
 
-    \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
-      \centering
-      \includegraphics[width=6.5cm]{../figures/example-cfcp.pdf}
-    \end{textblock*}
+    \only<1, 8->{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cfcp.pdf}
+      \end{textblock*}
+    }
 
-    \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
-      \centering
-      \includegraphics[width=6.5cm]{../figures/example-vcp.pdf}
-    \end{textblock*}
+    \only<2>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-1.pdf}
+      \end{textblock*}
+    }
+
+    \only<3>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-2.pdf}
+      \end{textblock*}
+    }
+
+    \only<4>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-3.pdf}
+      \end{textblock*}
+    }
+
+    \only<5>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-4.pdf}
+      \end{textblock*}
+    }
+
+    \only<6>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-5.pdf}
+      \end{textblock*}
+    }
+
+    \only<7>{
+      \begin{textblock*}{\examplewidth/2}(0cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-cf-6.pdf}
+      \end{textblock*}
+    }
+
+    \only<1-7>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp.pdf}
+      \end{textblock*}
+    }
+
+    \only<8>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-1.pdf}
+      \end{textblock*}
+    }
+
+    \only<9>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-2.pdf}
+      \end{textblock*}
+    }
+
+    \only<10>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-3.pdf}
+      \end{textblock*}
+    }
+
+    \only<11>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-4.pdf}
+      \end{textblock*}
+    }
+
+    \only<12>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-5.pdf}
+      \end{textblock*}
+    }
+
+    \only<13>{
+      \begin{textblock*}{\examplewidth/2}(8cm,\exampleheight) % {block width} (coords)
+        \centering
+        \includegraphics[width=6.5cm]{../figures/example-vcp-6.pdf}
+      \end{textblock*}
+    }
+
+
+
+
 
     \vspace{3cm}
 
@@ -501,7 +600,7 @@
 
       \vfill
 
-      \item \textbf{Cellular networks}: consist of base-stations and clients.
+      \item \textbf{Cellular networks}: consist of towers and clients.
       \pause
       \item The problem: \textbf{frequency assignment}.
 
@@ -533,7 +632,7 @@
       \item Our goal is to assign frequencies such that:
       \pause
       \begin{itemize}
-        \item[(1)] Every client is served by a base-station with a unique frequency.
+        \item[(1)] Every client is served by a tower with a unique frequency.
         \pause
         \item[(2)] Minimize the number of frequencies used.
       \end{itemize}
@@ -691,7 +790,7 @@
       \only<4>{
         \begin{textblock*}{14cm}(1cm, 3.5cm) % {block width} (coords)
           \begin{theorem}
-          A graph cannot be conflict-free colored with $k$ colors if it contains a complete graph of $k+2$ vertices or a tattered graph of $k+3$ vertices.
+          A graph cannot be conflict-free colored with $k$ colors if it contains a complete graph of $k+2$ vertices or a tattered graph of $k+3$ vertices as a minor.
           \end{theorem}
         \end{textblock*}
       }

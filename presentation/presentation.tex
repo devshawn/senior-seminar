@@ -9,8 +9,10 @@
 \usepackage[noend]{algpseudocode}
 \usepackage[absolute,overlay]{textpos}
 \usepackage{calc}
-\usepackage[backend=bibtex,citestyle=authortitle]{biblatex}
+\usepackage[backend=bibtex,citestyle=authortitle,firstinits=true]{biblatex}
 \usepackage[no-math]{fontspec}
+\addbibresource{../references.bib}
+\setbeamertemplate{bibliography item}[text]
 
 % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
 % {eso-pic}
@@ -146,6 +148,7 @@
 \usetheme[numbering=counter, progressbar=frametitle, sectionpage=none]{metropolis}
 \setbeamercolor{background canvas}{bg=white}
 \setbeamertemplate{caption}{\raggedright\insertcaption\par}
+\setbeamertemplate{frametitle continuation}{}
 
 \setsansfont[ItalicFont={Fira Sans Light Italic},%
              BoldFont={Fira Sans Bold},%
@@ -872,6 +875,13 @@
     \href{https://github.com/devshawn/senior-seminar}{github.com/devshawn/senior-seminar}
     \vfill
     \ccbyncsa{}
+  \end{frame}
+
+  \nocite{*}
+  \begin{frame}[t,allowframebreaks]
+    \frametitle{References}
+    \vspace{-0.6cm}
+    \printbibliography
   \end{frame}
 
 \end{document}

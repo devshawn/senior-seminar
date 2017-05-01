@@ -107,7 +107,7 @@ There are certain problems, called NP-hard, that can be proven to be as hard as 
 
 The k-colorability problem as well as the conflict-free k-colorability problem are NP-complete. This can be proven by using a reduction from a known NP-complete problem \cite{garey2002computers}. If we find a known hard problem $Y$, we can prove that another problem $X$ is hard by a reduction from $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The k-colorability problem is proven to be NP-complete with a reduction from 3-SAT, another well-known NP-complete problem \cite{sharma2012new}. The conflict-free k-colorability problem is shown to be NP-complete by a reduction from k-colorability \cite{abel2017three}.
 
-It is often desirable and necessary to use approximation algorithms, called heuristics, to solve complex problems like the VCP and the CFCP. In our case, heuristics are polynomial-time algorithms that give good, but not optimal, solutions to our optimization problems. A polynomial-time approximation scheme (PTAS) is any polynomial-time approximation algorithm that takes an instance of an optimization problem and a parameter $\epsilon > 0$ and produces a solution that is within a factor $(1 + \epsilon)$ (for minimization problems) of being optimal.
+It is often desirable and necessary to use approximation algorithms, known as heuristics, to solve complex problems like the VCP and the CFCP. In our case, heuristics are polynomial-time algorithms that give good, but not optimal, solutions to our optimization problems. A polynomial-time approximation scheme (PTAS) is any polynomial-time approximation algorithm that takes an instance of an optimization problem and a parameter $\epsilon > 0$ and produces a solution that is within a factor $(1 + \epsilon)$ (for minimization problems) of being optimal.
 
 \vspace{-0.2cm}
 
@@ -264,7 +264,7 @@ Conflict-free coloring has some interesting properties when we limit the input g
 Recall the map of the USA example given in the introduction. This is an example of a planar graph and illustrates a famous theorem associated with it. We present this theorem, called the four color theorem, in Theorem \ref{thm:four}. The most widely-accepted proof, which utilizes a computer to brute force every possible case, can be found in \cite{robertson1997four}.
 
 \begin{theorem} \label{thm:four}
-Every loopless planar graph admits a vertex coloring with at most four distinct colors.
+Every loopless planar graph admits a proper vertex coloring with at most four distinct colors.
 \end{theorem}
 
 Due to Theorem \ref{thm:four}, we immediately know that every planar graph is conflict-free 4-colorable. This raises the question of whether there are planar graphs that require four colors or if fewer colors could suffice for all planar graphs. This leads us to the conflict-free variation of this theorem. We present this in Theorem \ref{thm:four-cf}. It is given and proven in \cite{abel2017three}.
@@ -276,7 +276,7 @@ Due to Theorem \ref{thm:four}, we immediately know that every planar graph is co
 \end{figure}
 
 \begin{theorem} \label{thm:four-cf}
-Every loopless planar graph admits a conflict-free coloring with at most three distinct colors.
+Every loopless planar graph admits a valid conflict-free coloring with at most three distinct colors.
 \end{theorem}
 
 Figure \ref{fig:four} looks at a planar graph that requires four colors in a proper vertex coloring. Based on Theorem \ref{thm:four-cf}, we know that this planar graph can be conflict-free colored with only three colors. This is shown in Figure \ref{fig:four} as well.

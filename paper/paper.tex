@@ -45,7 +45,7 @@ Consider the map of the 48 contiguous states in the United States of America. Su
 
 This is a famous example of the \emph{vertex coloring} problem and one of many graph coloring problems. The vertex coloring problem aims to find the minimum number of colors needed to color a graph such that no two adjacent vertices are colored with the same color. While some problems are relatively easy to solve, the vertex coloring problem is one of the most computationally complex problems in computer science and mathematics \cite{bondy1976graph}. The vertex coloring problem has many real-world applications such as finding the minimum number of time slots needed to schedule final exam periods such that no two courses (taken by the same student) are scheduled at the same time slot.
 
-The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color \emph{every} vertex such that it is not connected to a vertex of the same color. Rather, it aims to color \emph{some} vertices such that the neighborhood of every vertex contains at least one unqiuely colored vertex.
+The \emph{conflict-free coloring} problem is a relaxed variation of the vertex coloring problem. The conflict-free coloring problem does not aim to color \emph{every} vertex. Rather, it aims to color \emph{some} vertices such that the neighborhood of every vertex contains at least one uniquely colored vertex.
 
 This paper looks into some applications and heuristics of conflict-free coloring. We then look into the specific case of conflict-free coloring planar graphs. Section 2 provides the background necessary to understand the problem and how it is used. Section 3 introduces some applications for the conflict-free coloring problem. Section 4 describes a heuristic for conflict-free coloring general graphs. Section 5 looks into the specific case of conflict-free coloring planar graphs.
 
@@ -67,11 +67,11 @@ A graph, denoted $G=(V,E)$, is an ordered pair of two sets: a set of vertices $V
 
 A simple graph is a loopless graph where no two edges connect the same pair of vertices. A planar graph is a graph that can be drawn on the plane such that its edges only intersect at their endpoints. This drawing is referred to as a planar drawing. All graphs used by the vertex coloring problem and conflict-free coloring problem are assumed to be simple graphs. An example graph is shown in Figure \ref{fig:graph}.
 
-The neighborhood of a vertex, denoted $N_G(v)$, is a set of all vertices adjacent to $v$. A \emph{closed} neighborhood consists of the vertices adjacent to $v$ plus $v$ itself. For example, let's examine $N_{G_1}(1)$ from Figure \ref{fig:graph}. The open neighborhood of 1 is $\{2, 5\}$ while the closed neighborhood is $\{1, 2, 5\}$. For the rest of the paper, the term \emph{neighborhood} will refer to closed neighborhoods unless stated otherwise.
+The open neighborhood of a vertex is a set of all vertices adjacent to $v$. A \emph{closed} neighborhood, denoted $N_G(v)$, consists of the vertices adjacent to $v$ plus $v$ itself. For example, let's examine $N_{G_1}(1)$ from Figure \ref{fig:graph}. The open neighborhood of 1 is $\{2, 5\}$ while the closed neighborhood is $\{1, 2, 5\}$. For the rest of the paper, the term \emph{neighborhood} will refer to closed neighborhoods unless stated otherwise.
 
 A \emph{path} is a sequence of edges that connect a sequence of distinct vertices. A \emph{subgraph} is a graph $H$ that can be formed from a subset of the vertices and edges of $G$. A graph is \emph{connected} if there exists a path between every pair of vertices. A \emph{component} of a graph $G$ is a subgraph $H$ where $H$ is connected and $H$ is not contained in any connected subgraph of $G$ that has more vertices or edges than $H$ has. An isolated path is a component that is itself a path.
 
-The distance of a path can be thought of as the smallest number of edges needed to get from one vertex to another vertex. For example, in Figure \ref{fig:graph}, the distance from vertex 3 to vertex 4 would be 3 as it takes 3 edges to get there. A \emph{distance-3-set} is a set of vertices that all have exactly distance 3 from each other. An example of a distance-3-set from Figure \ref{fig:graph} would be $\{3,4\}$. \cite{bondy1976graph,west2001introduction}
+The distance of a path can be thought of as the smallest number of edges needed to get from one vertex to another vertex. For example, in Figure \ref{fig:graph}, the distance from vertex 3 to vertex 4 would be 3 as it takes 3 edges to get there. A \emph{distance-3-set} is a set of vertices that all have exactly pairwise distance 3 from each other. An example of a distance-3-set from Figure \ref{fig:graph} would be $\{3,4\}$. \cite{bondy1976graph,west2001introduction}
 
 \begin{figure}[h]
 	\centering
@@ -81,9 +81,9 @@ The distance of a path can be thought of as the smallest number of edges needed 
 
 \subsection{Graph Coloring}
 \label{sec:coloring}
-A \emph{vertex coloring} is an assignment of colors to each vertex of a graph $G$. A \emph{proper vertex coloring} assigns colors such that no two adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors, i.e. $|S|$, needed to properly color $G$. The \emph{vertex coloring problem} (VCP), when given a simple graph $G$, is to find $\chi(G)$. \cite{bondy1976graph}
+A \emph{vertex coloring} is an assignment of colors to each vertex of a graph $G$. A \emph{proper vertex coloring} assigns colors such that no two adjacent vertices share the same color. Mathematically, it can be described as a function $f : V \rightarrow S = \{1, 2, \dots, k\}$ such that $\forall u,w \in V$, if $(u,w) \in E$, then $f(u) \neq f(w)$. The \emph{chromatic number} of $G$, denoted $\chi(G)$, is the minimum number of colors needed to properly color $G$. The \emph{vertex coloring problem} (VCP), when given a simple graph $G$, is to find $\chi(G)$. \cite{bondy1976graph}
 
-A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or fewer colors, i.e. $\chi(G) \leq k$. A graph having $\chi(G) = k$ is said to be a \emph{k-chromatic} graph. The \emph{k-colorability} problem asks if a graph can be colored using $k$ colors. This problem is slightly different than the VCP as it is decision problem rather than an optimization problem. An example of a 3-colorable graph and a vertex coloring is shown in Figure \ref{fig:vcp-example}.
+A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or fewer colors, i.e. $\chi(G) \leq k$. A graph having $\chi(G) = k$ is said to be a \emph{k-chromatic} graph. The \emph{k-colorability} problem asks if a graph can be colored using $k$ colors. This problem is slightly different than the VCP as it is a decision problem rather than an optimization problem. An example of a 3-colorable graph and a vertex coloring is shown in Figure \ref{fig:vcp-example}.
 
 \begin{figure}[h]
 	\centering
@@ -91,11 +91,11 @@ A graph $G$ is said to be \emph{k-colorable} if it can be colored using $k$ or f
 	\caption{A minimum conflict-free coloring of $G_1$}\label{fig:cfcp-example}
 \end{figure}
 
-A \emph{conflict-free k-coloring} of a simple graph $G$ assigns colors, $\{1, 2, \ldots, k\}$, to a subset $P \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the neighborhood of $v$. The set $V \setminus P$ contains any uncolored vertices. Generally, a \emph{conflict-free coloring} of a graph assigns colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. The \emph{conflict-free coloring problem} (CFCP) aims to find $\chi_{CF}(G)$. \cite{abel2017three}
+A \emph{conflict-free k-coloring} of a simple graph $G$ assigns colors, $\{1, 2, \ldots, k\}$, to a subset $P \subseteq V$ of vertices such that $\forall v \in V$, there is a vertex $u \in N(v)$ where the color of $u$ is unique in the neighborhood of $v$. The set $V \setminus P$ is the uncolored vertices, if any. Generally, a \emph{conflict-free coloring} of a graph assigns colors to some of the vertices such that, for every vertex $v$, there is a unique color assigned to a vertex among $v$ and $v$'s neighbors. The vertex $u$ can be thought of the \emph{conflict-free neighbor} of $v$. The \emph{conflict-free chromatic number} of G, denoted $\chi_{CF}(G)$, is the smallest $k$ for which a conflict-free coloring exists. The \emph{conflict-free coloring problem} (CFCP) aims to find $\chi_{CF}(G)$. \cite{abel2017three}
 
 An example of a conflict-free coloring is shown in Figure \ref{fig:cfcp-example}. All uncolored vertices are in gray. It is a valid conflict-free coloring because every vertex has a unique color within its neighborhood. For example, $N(1) = \{1: uncolored,\ 2: uncolored,\ 5: red\}$. As there are no other vertices colored red, we have verified there is a unique color in the neighborhood of vertex 1. We observe from Figures \ref{fig:vcp-example} and \ref{fig:cfcp-example}, $\chi(G_1) = 3$ and $\chi_{CF}(G_1) = 2$. It is worth noting that all proper vertex colorings are also conflict-free colorings. This is because in a proper vertex coloring, every vertex is its own conflict-free neighbor \cite{abel2017three}.
 
-A dominating set is a subset $D$ of $V$ such that every vertex not in $D$ is adjacent to at least one vertex in $D$. The domination number of $G$, denoted $\gamma(G)$, is the size of a minimum dominating set of G. The \emph{conflict-free domination number} for some $k$, denoted $\gamma_{CF}^k(G)$, is the minimum number of vertices that have to be colored in a conflict-free k-coloring of $G$. An example of a dominating set is $\{3, 5\}$ of graph $G_1$ where $\gamma(G_1) = 2$. The \emph{k-conflict-free dominating set} problem asks if a given k-coloring of a graph colors the minimum amount of vertices needed to have a coloring that utilizes $k$ colors.
+A dominating set is a subset $D$ of $V$ such that every vertex not in $D$ is adjacent to at least one vertex in $D$. The set of colored vertices in a conflict-free coloring is a dominating set \cite{abel2017three}. The domination number of $G$, denoted $\gamma(G)$, is the size of a minimum dominating set of G. An example of a dominating set is $\{3, 5\}$ of graph $G_1$ where $\gamma(G_1) = 2$. The \emph{conflict-free domination number} for some $k$, denoted $\gamma_{CF}^k(G)$, is the minimum number of vertices that have to be colored in a conflict-free k-coloring of $G$. The \emph{k-conflict-free dominating set} problem asks if a given k-coloring of a graph colors the minimum amount of vertices needed to have a conflict-free coloring that utilizes $k$ colors.
 
 \subsection{Computational Complexity Theory}
 \label{sec:complexitytheory}
@@ -105,9 +105,11 @@ Given a decision problem and a proposed solution, it can be possible to verify t
 
 There are certain problems, called NP-hard, that can be proven to be as hard as every problem in NP. If problem $Y$ can be transformed into problem $X$ by a polynomial-time algorithm, it is said that $Y$ can be polynomially reduced to $X$. A problem is NP-hard if it every problem in NP can be polynomially reduced to it. This means that if an NP-hard problem can be solved with a polynomial-time algorithm, then any problem in NP could be solved in polynomial time. A decision problem is said to be \emph{NP-complete} when it is both in NP and NP-hard.
 
-The k-colorability problem as well as the conflict-free k-colorability problem are NP-complete. This can be proven by using a reduction from a known NP-complete problem \cite{garey2002computers}. If we find a known hard problem $Y$, we can prove that another problem $X$ is hard by a reduction from $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The \emph{k-colorability} problem is proven to be NP-complete with a reduction from 3-SAT, another well-known NP-complete problem \cite{sharma2012new}. The \emph{conflict-free k-colorability problem} is shown to be NP-complete by a reduction from k-colorability \cite{abel2017three}.
+The k-colorability problem as well as the conflict-free k-colorability problem are NP-complete. This can be proven by using a reduction from a known NP-complete problem \cite{garey2002computers}. If we find a known hard problem $Y$, we can prove that another problem $X$ is hard by a reduction from $Y$ to $X$. The VCP and the CFCP have both been shown to be NP-hard \cite{abel2017three,moret1998theory}. The k-colorability problem is proven to be NP-complete with a reduction from 3-SAT, another well-known NP-complete problem \cite{sharma2012new}. The conflict-free k-colorability problem is shown to be NP-complete by a reduction from k-colorability \cite{abel2017three}.
 
-It is often desirable and necessary to use approximation algorithms, known as heuristics, to solve complex problems like the VCP and the CFCP. In our case, heuristics are polynomial-time algorithms that give good, but not optimal, solutions to our optimization problems. A polynomial-time approximation scheme (PTAS) is any polynomial-time approximation algorithm that takes an instance of an optimization problem and a parameter $\epsilon > 0$ and produces a solution that is within a factor $(1 + \epsilon)$ (for minimization problems) of being optimal.
+It is often desirable and necessary to use approximation algorithms, called heuristics, to solve complex problems like the VCP and the CFCP. In our case, heuristics are polynomial-time algorithms that give good, but not optimal, solutions to our optimization problems. A polynomial-time approximation scheme (PTAS) is any polynomial-time approximation algorithm that takes an instance of an optimization problem and a parameter $\epsilon > 0$ and produces a solution that is within a factor $(1 + \epsilon)$ (for minimization problems) of being optimal.
+
+\vspace{-0.2cm}
 
 \section{Applications}
 Before digging into methods for solving the CFCP, it is important to understand what motivated the recent studies into conflict-free coloring.
@@ -125,6 +127,8 @@ The main problem when initially setting up these networks comes into play when a
 	\caption{Cellular tower VCP and CFCP example}\label{fig:towers}
 \end{figure}
 
+\vspace{-0.1cm}
+
 This problem was initially modeled as a vertex coloring problem, where the vertices are the base-stations and the edges are the pairs of base-stations that overlap in their reception range. This model is too wasteful and restrictive. Imagine a situation where a client is within the reception range of 3 base-stations. The VCP model would require 3 colors, one for each base station. If we assign one base-station a color (say blue) and the other 2 a \emph{different} color (say red), then we only utilize two colors and the client utilizes the blue base-station and has no mutual interference. This model is shown in Figure \ref{fig:towers}. This is exactly what a conflict-free coloring does. \cite{smorodinsky2013conflict}
 
 \subsection{RFID Networks}
@@ -132,7 +136,7 @@ Radio frequency identification (RFID) networks are similar to wireless networks.
 
 Multiple RFID readers are often set up in a given location to improve coverage of the overall area. There can also be multiple RFID readers set up that each do a different action after reading a tagged object. Unlike cellular towers, a reader can only be reading (i.e. connected to) a single tag at a time. Two readers trying to access a tagged object at the same time can cause mutual interference. The goal is to schedule for each reader a time slot for when the reader will be active.
 
-Imagine we have a set of readers, $R$. Suppose they all are assigned the same frequency. We would like to schedule each reader $r \in R$ a time slot $t(r)$ where the reader $r$ will be active. We have a set of tags $P$ (i.e. automobile RFID chips). We can say that $P$ is read by our schedule if for every tag $p \in P$, there is at least one reader $r \in R$ and a time $t$ such that $p$ is read by $r$ at time $t$. We want to minimize the total time slots used by the schedule. This can be accomplished by modeling the situation as a conflict-free coloring problem. Again, we aim to find the minimum number of colors needed. \cite{cheilaris2014strong, smorodinsky2013conflict}
+Imagine we have a set of readers, $R$. Suppose they all are assigned the same frequency. We would like to schedule each reader $r \in R$ a time slot $t(r)$ where the reader $r$ will be active. We have a set of tags $P$ (i.e. product RFID chips). We can say that $P$ is read by our schedule if for every tag $p \in P$, there is at least one reader $r \in R$ and a time $t$ such that $p$ is read by $r$ at time $t$. We want to minimize the total time slots used by the schedule. This can be accomplished by modeling the situation as a conflict-free coloring problem. Again, we aim to find the minimum number of colors needed. \cite{cheilaris2014strong, smorodinsky2013conflict}
 
 \section{CF Coloring of General Graphs}
 \label{sec:general-coloring}
@@ -239,7 +243,7 @@ Next, for every vertex in $D$, we must remove their closed neighborhood from the
 \end{figure}
 
 
-The last step of the algorithm is to remove all isolated paths from $G$. Since we are left with only two vertices with no edges connecting them, we have 2 isolated paths. We remove these isolated paths from $G$ and are left with an empty graph. Since the graph is empty, we exit the outer $while$ loop and execute line 17. We color all removed isolated paths using color $i$, which is color 2 (say blue). Since we had 2 isolated paths, which are really just two vertices 5 and 7, we color each vertex with color 2.
+The last step of the algorithm is to remove all isolated paths from $G$. Since we are left with only two isolated vertices, which are trivially isolated paths, we have 2 isolated paths. We remove these isolated paths from $G$ and are left with an empty graph. Since the graph is empty, we exit the outer $while$ loop and execute line 17. We color all removed isolated paths using color $i$, which is color 2 (say blue). Since we had 2 isolated paths, which are really just two vertices 5 and 7, we color each vertex with color 2.
 
 \begin{figure}[h]
 	\centering
@@ -342,21 +346,24 @@ For $k \geq 4$, the k-conflict-free dominating set problem is NP-complete and $\
 
 We get a PTAS for the conflict-free domination number by applying Algorithm \ref{alg:cf-dominating} and finding the dominating set using the PTAS defined by Baker and Hill \cite{baker1994approximation}. As the input graph $G$ is planar, the resulting graph $G'$ is also planar because $G'$ is a minor of $G$. Thus, it can be colored with 4 colors or less by Theorem \ref{thm:four}. We then color $G$ with the colors of $G'$, leaving any vertex in $G$ but not in $G'$ uncolored. This leaves us with a conflict-free coloring of $G$.
 
-\vspace{-0.1cm}
+\vspace{-0.15cm}
 
 \section{Conclusion}
 \label{sec:conclusion}
 We have presented some of the recent heuristics and findings on the conflict-free coloring problem. Although the CFCP is NP-hard and finding the minimum number colors needed requires inefficient brute force algorithms, there are heuristics to find good conflict-free colorings.
 
-There are many applications of the CFCP that benefit from the recent research into conflict-free coloring. It is easier to minimize frequency assignment for wireless networks and design RFID networks. Current research focuses on finding bounds and properties on specific cases such as planar graphs, interval graphs, types of hypergraphs, and more.
+There are many applications of the CFCP that benefit from the recent research into conflict-free coloring. It is easier to minimize frequency assignment for wireless networks and design RFID networks. Current research focuses on finding bounds and properties on specific cases such as interval graphs, types of hypergraphs, and more \cite{cheilaris2014strong,smorodinsky2013conflict}.
 
-There is also recent interest in variations of the CFCP such as requiring \emph{another} vertex (not the selected vertex) to be colored within the neighborhood of a selected vertex. This allows for applications such as guiding a specific robot to other locations (i.e. the robot and its destination would both be a distinct unique color). Overall, finding properties and heuristics for conflict-free coloring is beneficial and required for efficiently solving real-world problems.
+There is also recent interest in variations of the CFCP such as requiring \emph{another} vertex (not the selected vertex) to be colored within the neighborhood of a selected vertex. This allows for applications such as guiding a specific robot to other locations (i.e. the robot and its destination would both be a distinct unique color). Relaxing the proper vertex coloring problem to satisfy new requirements leads to new heuristics that can effectively solve more real-world problems.
 
-\vspace{-0.1cm}
+\vspace{-0.15cm}
 
 
 \section{Acknowledgments}
 Thanks to Peter Dolan, Elena Machkasova, Peh Ng, and Jeremy Eberhardt for their advice and feedback.
+
+\vspace{-0.15cm}
+
 
 \bibliographystyle{abbrv}
 \bibliography{../references}
